@@ -1,0 +1,27 @@
+{
+  "name": "beatroutecolumbus",
+  "version": "1.0.0",
+  "description": "Blog for bootcamp",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SnubStumpy2007/Project-Two.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SnubStumpy2007/Project-Two/issues"
+  },
+  "homepage": "https://github.com/SnubStumpy2007/Project-Two#readme",
+  "dependencies": {
+    "express.js": "^1.0.0",
+    "handlebars": "^4.7.8",
+    "mysql2": "^3.6.0",
+    "node.js": "^0.0.1-security",
+    "sequelize": "^6.32.1"
+  }
+}
