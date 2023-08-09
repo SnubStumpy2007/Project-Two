@@ -23,5 +23,8 @@
     "mysql2": "^3.6.0",
     "node.js": "^0.0.1-security",
     "sequelize": "^6.32.1"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.1"
   }
 }
