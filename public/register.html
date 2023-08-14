@@ -30,7 +30,21 @@
       <article
       class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600 flex-auto"
       >
-        <p>links to various blogs (dynamic Handlebars content)</p>
+      <form>  
+        <div class="container">  
+            <h1>Enter your email, username and password to register and start blogging</h1>   
+            <label>Email : </label>   
+            <input type="text" id="email" placeholder="Enter Email" name="email" required>  
+            <label>Username : </label>   
+            <input type="text" id="username" placeholder="Enter Username" name="username" required>  
+            <label>Password : </label>   
+            <input type="password" id="password" placeholder="Enter Password" name="password" required>  
+            <button type="submit">Login</button>   
+            <input type="checkbox" checked="checked"> Remember me   
+            <button type="button" class="cancelbtn"> Cancel</button>   
+            Forgot <a href="forgot-password.html"> password? </a>   
+        </div>   
+    </form>     
       </article>
     </section>
     <footer
