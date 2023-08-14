@@ -46,11 +46,12 @@ post.init(
       }
     },
     PostText: {
-        type: DataTypes.STRING,
+        type: DataTypes.STRING(65000),
     }
   },
   {
     sequelize,
+    tableName: 'userPosts',
     timestamps: true,
     freezeTableName: true,
     underscored: true,

@@ -1,6 +1,7 @@
 const express = require('express');
 const sequelize = require('./config/connection.js');
 const mysql = require('mysql12');
+const routes = require('./routes');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -21,6 +22,14 @@ const db = sequelize.createConnection(
   },
   console.log(`Connected to the blog_db database.`)
 );
+
+// Routes
+app.use(routes);
+
+// Connect to db and server
+sequelize.sync({ force: false }).then(() => {
+  app.listen(PORT, () => console.log('Now listening'));
+});
 
 // Query database
 db.query('SELECT * FROM userAccount', function (err, results) {

@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../config/connection');
+const sequelize = require('../config/connection.js');
 
 class user extends Model {}
 
@@ -60,6 +60,7 @@ user.init(
         },
       },
     sequelize,
+    tableName: 'userAccount',
     timestamps: false,
     freezeTableName: true,
     underscored: true,
