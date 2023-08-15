@@ -37,7 +37,26 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+const User = require('./user');
+const Post = require('./post');
+
+User.hasOne(UserName, {
+  foreignKey: 'UserName',
+  onDelete: 'CASCADE',
+});
+
+User.hasMany(Post, {
+  foreignKey: 'UserName',
+  onDelete: 'CASCADE',
+});
+
+Post.belongsTo(UserName, {
+  foreignKey: 'UserName',
+});
+
+module.exports = { User, Post };
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
-module.exports = db;
+module.exports = db;node
