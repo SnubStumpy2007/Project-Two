@@ -4,8 +4,7 @@ const session = require('express-session');
 const exphbs = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-const { User } = require('./models');
-const routes = require('./routes');
+const routes = require('./routes'); // updated this line to import the main routes file
 const helpers = require('./utils/helpers');
 const sequelize = require('./config/connection');
 
@@ -43,11 +42,6 @@ app.set('view engine', 'handlebars');
 
 // Routes
 app.use(routes);
-
-// Default response for any other request (Not Found)
-app.use((req, res) => {
-    res.status(404).end();
-});
 
 // Sync Sequelize models with the database and start the server
 sequelize.sync({ force: false }).then(() => {
