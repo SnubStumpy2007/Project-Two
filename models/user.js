@@ -1,37 +1,77 @@
-const { DataTypes } = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection.js');
+const bcrypt = require('bcrypt');
 
-module.exports = (sequelize) => {
-  const User = sequelize.define('User', {
-    username: {
+class user extends Model {
+checkPassword(loginPw) {
+  return bcrypt.compareSync(loginPw, this.password);
+}
+}
+
+user.init(
+  {
+    id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    UserName: {
       type: DataTypes.STRING,
+      allowNull: false,
       unique: true,
-      allowNull: false
+      primaryKey: true,
     },
-    firstName: {
+    FirstName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isAlphanumeric: true,
+      }
     },
-    lastName: {
+    LastName: {
       type: DataTypes.STRING,
-      allowNull: false
+      validate: {
+        isAlphanumeric: true,
+      },
     },
-    email: {
+    Email: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
       validate: {
-        isEmail: true
+        isEmail: true,
       }
     },
-    aboutMe: {
-      type: DataTypes.STRING(140),
-      allowNull: true
-    },
-    password: {
+    Password: {
       type: DataTypes.STRING,
-      allowNull: false
-    }
-  });
+      allowNull: false,
+      validate: {
+        len: [6],
+      }
+    },
+  },
+  {
+    hooks: {
+        beforeCreate: async (newUserData) => {
+          newUserData.password = await bcrypt.hash(newUserData.password, 10);
+          return newUserData;
+        },
+        beforeUpdate: async (updatedUserData) => {
+          if (updatedUserData.password) {
+          updatedUserData.password = await bcrypt.hash(updatedUserData.password, 10);
+          }
+          return updatedUserData;
+        },
+      },
+    sequelize,
+    tableName: 'userAccount',
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'user'
+  },
+  
+);
 
-  return User;
-};
+module.exports = user;

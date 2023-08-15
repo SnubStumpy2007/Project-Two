@@ -1,43 +1,55 @@
+const path = require('path');
 const express = require('express');
 const session = require('express-session');
-const bcrypt = require('bcryptjs');
-const { User } = require('./models'); 
-const userRoutes = require('./routes/users'); 
+const exphbs = require('express-handlebars');
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
+
+const { User } = require('./models');
+const routes = require('./routes');
+const helpers = require('./utils/helpers');
+const sequelize = require('./config/connection');
 
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-// Middleware for session management
-app.use(session({
-  secret: 'your-secret-key', // It's better to use an environment variable for this
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    secure: process.env.NODE_ENV === "production", // Ensure secure cookies in production
-    maxAge: 7200000 // 2 hours
-  }
-}));
+// Set up Handlebars.js engine with custom helpers
+const hbs = exphbs.create({ helpers });
 
-// Middleware to parse JSON payloads
-app.use(express.json());
+// Define session configuration
+const sess = {
+    secret: 'Super secret secret', // Adjust this. It's better to use an environment variable for this
+    cookie: {
+        maxAge: 7200000, // 2 hours
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", // Ensure secure cookies in production
+        sameSite: 'strict',
+    },
+    resave: false,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: sequelize
+    })
+};
 
-// Middleware to parse x-www-form-urlencoded payloads (from HTML forms)
+// Middleware configurations
+app.use(session(sess));
+app.use(express.json()); 
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve static files (like CSS, JS, images) if needed
-// app.use(express.static('public'));
+// Handlebars configuration
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
 
-// Use the routes from routes/users.js
-app.use('/users', userRoutes);
+// Routes
+app.use(routes);
 
-// Assuming you may want a homepage route
-app.get('/', (req, res) => {
-  res.send('Welcome to Personal Blog Platform!'); 
-  // Consider rendering a template or serving a static HTML file here
+// Default response for any other request (Not Found)
+app.use((req, res) => {
+    res.status(404).end();
 });
 
-// other routes or middleware
-
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+// Sync Sequelize models with the database and start the server
+sequelize.sync({ force: false }).then(() => {
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 });
