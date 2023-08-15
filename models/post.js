@@ -14,15 +14,15 @@ post.init(
     UserName: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       primaryKey: true,
     },
     Title: {
       type: DataTypes.STRING ,
       allowNull: false,
+      unique: true,
       validate: {
         isAlphanumeric: true,
-        len: [10],
+        len: [50],
       }
     },
     VenueName: {
