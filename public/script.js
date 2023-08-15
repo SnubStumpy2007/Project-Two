@@ -3,4 +3,7 @@
 document.getElementById('email');
 document.getElementById('email-recovery')
 document.getElementById('username');
-document.getElementById('password')
+document.getElementById('password');
+
+
+
