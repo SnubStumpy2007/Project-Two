@@ -65,7 +65,6 @@ user.init(
         },
       },
     sequelize,
-    tableName: 'userAccount',
     timestamps: false,
     freezeTableName: true,
     underscored: true,
