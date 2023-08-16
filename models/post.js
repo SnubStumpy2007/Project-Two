@@ -46,7 +46,7 @@ post.init(
       }
     },
     PostText: {
-        type: DataTypes.STRING(65000),
+        type: DataTypes.BLOB,
     }
   },
   {
