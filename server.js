@@ -1,8 +1,8 @@
 
 const express = require('express');
-const sequelize = require('./config/connection.js');
+const sequelize = require('./config/connection');
 const mysql = require('mysql12');
-const routes = require('./routes');
+const routes = require('./controllers/routes');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -45,7 +45,7 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
-=======
+
 // Import required modules
 const path = require('path');
 const express = require('express');
@@ -55,10 +55,6 @@ const routes = require('./controllers');
 const helpers = require('./utils/helpers');
 const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-
-// Create an Express application
-const app = express();
-const PORT = process.env.PORT || 3001;
 
 // Set up Handlebars.js engine with custom helpers
 const hbs = exphbs.create({ helpers });
