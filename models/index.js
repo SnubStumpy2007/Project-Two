@@ -1,4 +1,4 @@
-const User = require('./user');
+const User = require('./userAccount');
 const Post = require('./post');
 
 Post.hasOne(User, {
