@@ -1,70 +1,80 @@
+// routes/users.js
 const express = require('express');
-const bcrypt = require('bcryptjs');
-const path = require('path'); 
+const path = require('path');
 const { User } = require('../models');
 
 const router = express.Router();
 
-// Route to serve the static register.html page
+// Route to show registration form
 router.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, '../path-to-your-html-folder/register.html')); // Adjust the path accordingly
+    res.sendFile(path.join(__dirname, '../public/register.html'));
 });
 
-// Registration route for handling form submission from register.html
+// Route to handle user registration
 router.post('/register', async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
         const user = await User.create({
-            username: req.body.username,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
+            user_name: req.body.username,
+            first_name: req.body.firstName,
+            last_name: req.body.lastName,
             email: req.body.email,
-            aboutMe: req.body.aboutMe,
-            password: hashedPassword
+            pwd_hash: req.body.password
         });
+
         req.session.userId = user.id;
-        res.redirect('/users/dashboard');
+        console.log("User registration successful. Redirecting to login.html...");
+        res.redirect('/login.html');
     } catch (error) {
-        console.error(error);
-        res.redirect('/users/register'); 
+        console.error("Registration error:", error);
+        res.status(500).send(`Registration error: ${error.message}`);
     }
 });
 
-// Route to serve the static login.html page
+// Route to show login form
 router.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, '../path-to-your-html-folder/login.html')); 
+    res.sendFile(path.join(__dirname, '../public/login.html'));
 });
 
-// Login route for handling form submission from login.html
+// Route to handle user login
 router.post('/login', async (req, res) => {
     try {
-        const user = await User.findOne({ where: { username: req.body.username } });
-        if (user && await bcrypt.compare(req.body.password, user.password)) {
+        const user = await User.findOne({ where: { user_name: req.body.username } });
+
+        if (user && user.checkPassword(req.body.password)) {
             req.session.userId = user.id;
-            res.redirect('/users/dashboard'); 
+            res.redirect('/index.html');  
         } else {
-            res.redirect('/users/login'); 
+            res.redirect('/login.html');
         }
     } catch (error) {
-        console.error(error);
-        res.redirect('/users/login');
+        console.error("Login error:", error);
+        res.status(500).send(`Login error: ${error.message}`);
     }
 });
 
-// Dashboard route
+// Other routes ...
+router.get('/explore', (req, res) => {
+    if (!req.session.userId) {
+        return res.redirect('/login.html');
+    }
+    res.sendFile(path.join(__dirname, '../public/explore.html'));
+});
+
 router.get('/dashboard', async (req, res) => {
-    // Here you'd normally render a Handlebars view or another templating system.
-    // For simplicity, I'll just send a message.
+    if (!req.session.userId) {
+        return res.redirect('/login.html');
+    }
     res.send("Welcome to the dashboard!");
 });
 
-// Logout route
 router.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            console.error(err);
+            console.error("Logout error:", err);
+            res.status(500).send(`Logout error: ${err.message}`);
+        } else {
+            res.redirect('/login.html');
         }
-        res.redirect('/users/login');
     });
 });
 

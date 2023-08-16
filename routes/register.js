@@ -1,19 +1,18 @@
 router.post('/register', async (req, res) => {
     try {
-        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+        // Removed the hashing here since the model already does it
         const user = await User.create({
-            username: req.body.username,
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
+            user_name: req.body.user_name,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
             email: req.body.email,
-            aboutMe: req.body.aboutMe,
-            password: hashedPassword
+            pwd_hash: req.body.pwd_hash
         });
+
         req.session.userId = user.id;
-        res.redirect('/dashboard');
+        res.redirect('/auth/login');
     } catch (error) {
         console.error(error);
         res.redirect('/register?error=Registration failed. Please try again.');
-
     }
 });
