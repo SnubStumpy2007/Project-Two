@@ -3,6 +3,7 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
+const exphbs = require('express-handlebars'); // Import express-handlebars
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 const routes = require('./routes'); 
@@ -31,7 +32,14 @@ app.use(cors({origin: 'http://127.0.0.1:5500'}));
 app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// Serve static assets from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Setting up Handlebars as the view engine
+app.set('views', path.join(__dirname, 'public'));
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
 
 // Routes
 app.use(routes);
