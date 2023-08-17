@@ -65,6 +65,6 @@ const initializeUserAccount = (sequelize) => {
     return UserAccount;
 };
 
-    module.exports = userAccount;
     module.exports = initializeUserAccount;
+    module.exports = UserAccount;
 

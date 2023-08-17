@@ -62,3 +62,4 @@ const initializePost = (sequelize) => {
 }
 
 module.exports = initializePost;
+module.exports = Post;

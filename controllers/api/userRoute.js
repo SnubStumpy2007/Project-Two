@@ -1,11 +1,11 @@
 const router = require('express').Router();
 
-const { userAccount, Post } = require('../../models');
+const { UserAccount, Post } = require('../../models');
 
 router.post('/login', async (req, res) => {
   try {
     // Find the user who matches the posted e-mail address
-    const user = await userAccount.findOne({ where: { Email: req.body.Email } });
+    const user = await UserAccount.findOne({ where: { Email: req.body.Email } });
 
     if (!user) {
       res
@@ -15,7 +15,7 @@ router.post('/login', async (req, res) => {
     }
 
     // Verify the posted password with the password stored in the database
-    const validPassword = await userAccount.checkPassword(req.body.Password);
+    const validPassword = await UserAccount.checkPassword(req.body.Password);
 
     if (!validPassword) {
       res
