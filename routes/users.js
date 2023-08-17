@@ -27,7 +27,7 @@ router.post('/register', async (req, res) => {
         
         req.session.userId = user.id;
         console.log("User registration successful. Redirecting to login...");
-        res.redirect('/login'); 
+        res.redirect('/auth/login'); 
     } catch (error) {
         console.error("Registration error:", error);
         res.status(500).send(`Registration error: ${error.message}`);
@@ -46,8 +46,9 @@ router.post('/login', async (req, res) => {
             req.session.userId = user.id;
             res.redirect('/');  
         } else {
-            res.redirect('/login');
-        }
+                res.render('login', { error: 'Invalid username or password' });
+            
+              }
     } catch (error) {
         console.error("Login error:", error);
         res.status(500).send(`Login error: ${error.message}`);
