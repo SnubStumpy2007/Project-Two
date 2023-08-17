@@ -1,17 +1,15 @@
 const Sequelize = require('sequelize');
-require('dotenv').config();
+const config = require('./config.json').development; // Adjust as necessary (e.g., 'production', 'test')
 
-// Create a connection object
+// Use environment variables if they're defined, otherwise fallback to config.json values
 const sequelize = new Sequelize(
-  // connected to env file - input credentials
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASSWORD,
+  process.env.DB_NAME || config.database,
+  process.env.DB_USER || config.username,
+  process.env.DB_PASSWORD || config.password,
   {
-    // Database location
-    host: 'localhost',
-    dialect: 'mysql',
-    port: 3306
+    host: process.env.DB_HOST || config.host,
+    dialect: process.env.DB_DIALECT || config.dialect,
+    port: process.env.DB_PORT || 3306
   }
 );
 
