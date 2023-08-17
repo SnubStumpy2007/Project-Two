@@ -10,6 +10,7 @@ darkMode: false,
     extend: {},
     theme: {
       screens: {
+
         'sm': '640px',
         // => @media (min-width: 640px) { ... }
   
