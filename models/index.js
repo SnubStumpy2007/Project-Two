@@ -42,11 +42,13 @@ db.User.hasMany(db.Post, {
     onDelete: 'CASCADE',
 });
 
-db.Post.belongsTo(db.User, {
-    foreignKey: 'user_id', // Changed to user_id
+User.hasMany(Post, {
+  foreignKey: 'UserName',
+  onDelete: 'CASCADE',
 });
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
+Post.belongsTo(UserName, {
+  foreignKey: 'UserName',
+});
 
-module.exports = db;
+module.exports = { User, Post };
