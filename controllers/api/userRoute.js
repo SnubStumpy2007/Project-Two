@@ -1,13 +1,13 @@
 const router = require('express').Router();
 
-const { User } = require('../../models');
+const { userAccount, Post } = require('../../models');
 
 router.post('/login', async (req, res) => {
   try {
     // Find the user who matches the posted e-mail address
-    const userAccount = await User.findOne({ where: { Email: req.body.Email } });
+    const user = await userAccount.findOne({ where: { Email: req.body.Email } });
 
-    if (!userAccount) {
+    if (!user) {
       res
         .status(400)
         .json({ message: 'Incorrect email or password, please try again' });
@@ -26,15 +26,38 @@ router.post('/login', async (req, res) => {
 
     // Create session variables based on the logged in user
     req.session.save(() => {
-      req.session.user_id = userAccount.id;
+      req.session.user_id = user.id;
       req.session.logged_in = true;
       
-      res.json({ user: userAccount, message: 'You are now logged in!' });
+      res.json({ user: user, message: 'You are now logged in!' });
     });
 
   } catch (err) {
     res.status(400).json(err);
   }
+});
+
+router.get('/search', async (req, res) => {
+  const userSearch = req.query.homeSearch;
+
+  try {
+      const displayResults = await Post.findAll({
+          where: {
+              [Op.or]: [
+                  {Title: { [Op.iLike]: userSearch}},
+                  {VenueName: { [Op.iLike]: userSearch}},
+                  {Genre: { [Op.iLike]: userSearch}},
+                  {EventDate: { [Op.iLike]: userSearch}},
+                  {UserName: { [Op.iLike]: userSearch}},
+                  {created_on: { [Op.iLike]: userSearch}}
+                  
+              ],
+          },
+  });
+  res.status(200).json(displayResults);
+} catch (err) {
+  res.status(500).json({message: 'Could Not Find Results'});
+}
 });
 
 router.post('/logout', (req, res) => {

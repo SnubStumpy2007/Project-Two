@@ -63,8 +63,9 @@ module.exports = (sequelize) => {
         underscored: true,
         modelName: 'UserAccount'
     });
-
     return UserAccount;
 };
 
-module.exports = initializeUserAccount;
+    module.exports = userAccount;
+    module.exports = initializeUserAccount;
+
