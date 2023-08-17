@@ -1,19 +1,20 @@
 const router = require('express').Router();
 const bcrypt = require('bcrypt');
-const UserAccount = require('../../models/userAccount');
+const { UserAccount } = require('../../models');
 
-
-// Existing registration route
-router.post('/register', async (req, res) => {
+// Registration route
+router.post('/api/register', async (req, res) => {
   try {
     if (!req.body.username || !req.body.password) {
       return res.status(400).json({ message: 'Username and password are required.' });
     }
 
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const userData = await User.create({
-      ...req.body,
-      password: hashedPassword
+    const userData = await UserAccount.create({
+      UserName: req.body.username,
+      Email: req.body.email,
+      Password: hashedPassword
+      // Other fields can be added as needed
     });
 
     res.status(200).json(userData);
@@ -23,21 +24,22 @@ router.post('/register', async (req, res) => {
 });
 
 // Login route
-/*router.post('/login', async (req, res) => {
-    const user = await User.findOne({ where: { username: req.body.username } });
+// Uncomment this if you'd like to use it.
+/*
+router.post('/api/login', async (req, res) => {
+    const user = await UserAccount.findOne({ where: { UserName: req.body.username } });
     if (!user) {
         return res.status(400).json({ message: 'No such user found' });
     }
 
-    const isValid = await bcrypt.compare(req.body.password, user.password);
+    const isValid = await bcrypt.compare(req.body.password, user.Password);
     if (!isValid) {
         return res.status(400).json({ message: 'Incorrect password' });
     }
 
     req.session.user = user.dataValues;
-    // res.json({ user: user, message: 'You are now logged in!' });
-    // If you want to redirect to index.html after successful login, you can use:
-     res.redirect('/index.html');
+    res.redirect('/index.html');
 });
 */
+
 module.exports = router;

@@ -7,7 +7,7 @@ class UserAccount extends Model {
     }
 }
 
-module.exports = (sequelize) => {
+const initializeUserAccount = (sequelize) => {
     UserAccount.init({
         id: {
             type: DataTypes.INTEGER,
@@ -18,20 +18,19 @@ module.exports = (sequelize) => {
         UserName: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true,
-            primaryKey: true,
+            unique: true
         },
         FirstName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                isAlphanumeric: true,
+                notEmpty: true,
             }
         },
         LastName: {
             type: DataTypes.STRING,
             validate: {
-                isAlphanumeric: true,
+                notEmpty: true,
             },
         },
         Email: {
@@ -66,8 +65,10 @@ module.exports = (sequelize) => {
         timestamps: false,
         freezeTableName: true,
         underscored: true,
-        modelName: 'user'
+        modelName: 'UserAccount'
     });
 
     return UserAccount;
 };
+
+module.exports = initializeUserAccount;

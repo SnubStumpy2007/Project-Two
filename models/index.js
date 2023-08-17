@@ -26,8 +26,10 @@ fs
         );
     })
     .forEach(file => {
-        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+        const initializeModel = require(path.join(__dirname, file));
+        const model = initializeModel(sequelize);
         db[model.name] = model;
+        console.log(`Processed model: ${model.name}`);
     });
 
 Object.keys(db).forEach(modelName => {
@@ -37,20 +39,25 @@ Object.keys(db).forEach(modelName => {
 });
 
 // Set up relationships
-if (db.user && db.post) {  // Checking for the existence of the models
-    db.user.hasMany(db.post, {
+// I've noted the previous relationships have a mix of 'user' and 'user_account', 
+// but you seem to be using 'user_account', so please adjust as needed.
+if (db.user_account && db.post) {
+    db.user_account.hasMany(db.post, {
         foreignKey: 'user_id',
         onDelete: 'CASCADE',
     });
 
-    db.user.hasMany(db.post, {
+    db.user_account.hasMany(db.post, {
         foreignKey: 'UserName',
         onDelete: 'CASCADE',
     });
 
-    db.post.belongsTo(db.user, {
+    db.post.belongsTo(db.user_account, {
         foreignKey: 'UserName',
     });
 }
 
-module.exports = db;  // Export the entire db object
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+module.exports = db;

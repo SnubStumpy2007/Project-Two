@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const config = require('./config.json').development; // Adjust as necessary (e.g., 'production', 'test')
+const config = require('./config.json').production; // Adjust as necessary (e.g., 'production', 'test')
 
 // Use environment variables if they're defined, otherwise fallback to config.json values
 const sequelize = new Sequelize(
@@ -12,5 +12,8 @@ const sequelize = new Sequelize(
     port: process.env.DB_PORT || 3306
   }
 );
+sequelize.authenticate()
+  .then(() => console.log('Database connection established successfully.'))
+  .catch(err => console.error('Unable to connect to the database:', err));
 
 module.exports = sequelize;
