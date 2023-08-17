@@ -1,13 +1,14 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
+const sequelize = require('../config/connection');
 
-class UserAccount extends Model {
+class userAccount extends Model {
     checkPassword(loginPw) {
         return bcrypt.compareSync(loginPw, this.Password);
     }
 }
 
-const initializeUserAccount = (sequelize) => {
+module.exports = (sequelize) => {
     UserAccount.init({
         id: {
             type: DataTypes.INTEGER,
@@ -18,19 +19,20 @@ const initializeUserAccount = (sequelize) => {
         UserName: {
             type: DataTypes.STRING,
             allowNull: false,
-            unique: true
+            unique: true,
+            primaryKey: true,
         },
         FirstName: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notEmpty: true,
+                isAlphanumeric: true,
             }
         },
         LastName: {
             type: DataTypes.STRING,
             validate: {
-                notEmpty: true,
+                isAlphanumeric: true,
             },
         },
         Email: {
@@ -53,13 +55,7 @@ const initializeUserAccount = (sequelize) => {
             beforeCreate: async (newUserData) => {
                 newUserData.Password = await bcrypt.hash(newUserData.Password, 10);
                 return newUserData;
-            },
-            beforeUpdate: async (updatedUserData) => {
-                if (updatedUserData.Password) {
-                    updatedUserData.Password = await bcrypt.hash(updatedUserData.Password, 10);
-                }
-                return updatedUserData;
-            },
+            }
         },
         sequelize,
         timestamps: false,

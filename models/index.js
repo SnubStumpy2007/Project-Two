@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -39,25 +37,20 @@ Object.keys(db).forEach(modelName => {
 });
 
 // Set up relationships
-// I've noted the previous relationships have a mix of 'user' and 'user_account', 
-// but you seem to be using 'user_account', so please adjust as needed.
-if (db.user_account && db.post) {
-    db.user_account.hasMany(db.post, {
+if (db.user && db.post) {  // Checking for the existence of the models
+    db.user.hasMany(db.post, {
         foreignKey: 'user_id',
         onDelete: 'CASCADE',
     });
 
-    db.user_account.hasMany(db.post, {
+    db.user.hasMany(db.post, {
         foreignKey: 'UserName',
         onDelete: 'CASCADE',
     });
 
-    db.post.belongsTo(db.user_account, {
+    db.post.belongsTo(db.user, {
         foreignKey: 'UserName',
     });
 }
 
-db.sequelize = sequelize;
-db.Sequelize = Sequelize;
-
-module.exports = db;
+module.exports = db;  // Export the entire db object
