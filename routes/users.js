@@ -1,21 +1,28 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const { userAccount } = require('../models');
 const router = express.Router();
 
-// Route to show registration form
-router.get('/register', ( res ) => {
-    res.render('register'); 
+console.log("Imported UserAccount:", userAccount);
+
+
+router.get('/register', (req, res) => {
+    res.render('register');
 });
 
-// Route to handle user registration
 router.post('/register', async (req, res) => {
     try {
+        const { user_name, first_name, last_name, email, pwd_hash } = req.body;
+
+        // Hash the password
+        const hashedPassword = await bcrypt.hash(pwd_hash, 10);
+
         const user = await userAccount.create({
-            user_name: req.body.username,
-            first_name: req.body.firstName,
-            last_name: req.body.lastName,
-            email: req.body.email,
-            pwd_hash: req.body.password 
+            UserName: user_name,
+            FirstName: first_name,
+            LastName: last_name,
+            Email: email,
+            Password: hashedPassword
         });
         
         req.session.userId = user.id;
@@ -27,17 +34,15 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// Route to show login form
-router.get('/login', ( res ) => {
+router.get('/login', (req, res) => {
     res.render('login'); 
 });
 
-// Route to handle user login
 router.post('/login', async (req, res) => {
     try {
-        const user = await userAccount.findOne({ where: { user_name: req.body.user_name } });
+        const user = await userAccount.findOne({ where: { UserName: req.body.user_name } });
         
-        if (user && userAccount.checkPassword(req.body.password)) {
+        if (user && await bcrypt.compare(req.body.pwd_hash, user.Password)) {
             req.session.userId = user.id;
             res.redirect('/');  
         } else {
