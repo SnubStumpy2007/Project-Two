@@ -1,52 +1,47 @@
-// Import required modules
+require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const session = require('express-session');
+const cors = require('cors');
 const exphbs = require('express-handlebars');
-const routes = require('./controllers');
-const helpers = require('./utils/helpers');
-const sequelize = require('./config/connection');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-// Create an Express application
+const routes = require('./routes');
+const sequelize = require('./config/connection');
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-// Set up Handlebars.js engine with custom helpers
-const hbs = exphbs.create({ helpers });
-
-// Define session configuration
 const sess = {
-  secret: 'Super secret secret', // Secret used to sign the session ID cookie
-  cookie: {
-    maxAge: 300000, // Session duration in milliseconds
-    httpOnly: true, // Restrict cookie access to HTTP(S)
-    secure: false, // Allow cookie over non-HTTPS connections (should be true in production)
-    sameSite: 'strict', // Restrict cookies to same-site requests
-  },
-  resave: false, // Do not resave unchanged sessions
-  saveUninitialized: true, // Save uninitialized sessions (new and not modified)
-  store: new SequelizeStore({
-    db: sequelize // Use Sequelize to store sessions in the database
-  })
+    secret: process.env.SESSION_SECRET || 'Super secret secret',
+    cookie: {
+        maxAge: 7200000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: 'strict',
+    },
+    resave: false,
+    saveUninitialized: true,
+    store: new SequelizeStore({
+        db: sequelize
+    })
 };
 
-// Use the session middleware with the defined configuration
+// Middleware setup
+app.use(cors({ origin: 'http://127.0.0.1:5500' }));
 app.use(session(sess));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Configure Express to use Handlebars as the template engine
-app.engine('handlebars', hbs.engine);
+// View engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-// Configure middleware
-app.use(express.json()); // Parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded request bodies
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from 'public' directory
-
-// Use the routes defined in the 'controllers' module
+// Route setup
 app.use(routes);
 
-// Sync Sequelize models with the database and start the server
 sequelize.sync({ force: false }).then(() => {
-  app.listen(PORT, () => console.log('Now listening')); // Start the server on the specified port
+    app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 });

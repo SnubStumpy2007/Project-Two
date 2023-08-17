@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{pageTitle}}</title>
+    <link href="reset.css" rel="stylesheet" />
+    <link href="output.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <navbar
+      class="flex justify-between items-center p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black"
+    >
+      <div class="img">
+        <img src="{{logoSrc}}" alt="logo" width="150" height="150" />
+      </div>
+      <div id="btn" class="text-white">
+        <a href="{{loginLink}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
+        <a href="{{registerLink}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</a>
+        <div class="search-bar">
+          <form action="/search-posts" method="GET">
+            <input type="text" placeholder="Search..." name="homeSearch">
+            <button type="submit">Find Blogs Here!</button>
+          </form>
+        </div>
+      </div>
+
+    </navbar>
+    <section class="flex justify-start">
+      <aside
+      class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black text-white flex-none "
+      >
+        <a href="{{homeLink}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Home</a>
+        <a href="{{exploreLink}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Explore Blogs</a>
+      </aside>
+      <article
+      class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600 flex-auto"
+      >
+        {{#each blogs}}
+            <p><a href="/blog/{{this.id}}">{{this.title}}</a></p>
+        {{/each}}
+      </article>
+    </section>
+    <footer
+      class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600"
+    >
+      <p>Copyright</p>
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $("form").submit(function (event) {
+          event.preventDefault();
+    
+          const searchTerm = $("input[name='homeSearch']").val();
+    
+          $.get(`/search?homeSearch=${searchTerm}`, function (data) {
+            console.log(data);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
