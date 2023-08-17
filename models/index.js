@@ -1,5 +1,3 @@
-'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
@@ -37,20 +35,21 @@ Object.keys(db).forEach(modelName => {
 });
 
 // Set up relationships
-if (db.user && db.post) {  // Checking for the existence of the models
-    db.user.hasMany(db.post, {
+if (db.userAccount && db.post) {  // Checking for the existence of the models
+    db.userAccount.hasMany(db.post, {
         foreignKey: 'user_id',
         onDelete: 'CASCADE',
     });
 
-    db.user.hasMany(db.post, {
+    db.userAccount.hasMany(db.post, {
         foreignKey: 'UserName',
         onDelete: 'CASCADE',
     });
 
-    db.post.belongsTo(db.user, {
+    db.post.belongsTo(db.userAccount, {
         foreignKey: 'UserName',
     });
 }
 
 module.exports = db;  // Export the entire db object
+
