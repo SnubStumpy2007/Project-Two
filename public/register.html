@@ -10,7 +10,7 @@
   </head>
   <body>
     <navbar
-      class="flex justify-between items-center p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black"
+      class="flex justify-between items-center p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black max-sm:p-2 max-sm:flex max-sm:flex-col"
     >
       <div class="img">
         <img src="logo.png" alt="logo" width="150" height="150" />
@@ -20,7 +20,7 @@
         <a href="register.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</a>
       </div>
     </navbar>
-    <section class="h-screen flex justify-start">
+    <section class="h-screen flex flex-col justify-start max-sm:flex max-sm:flex-col max-md:flex max-md:flex-col">
       <aside
       class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black text-white flex-none "
       >
@@ -31,7 +31,7 @@
       class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600 flex-auto"
       >
       <form>  
-        <div class="container">  
+        <div class="container max-sm:flex max-sm:flex-col max-sm:p-5">  
             <h1>Enter your email, username and password to register and start blogging</h1>   
             <label>Email : </label>   
             <input type="text" id="email" placeholder="Enter Email" name="email" required>  
