@@ -65,5 +65,5 @@ userAccount.init(
         modelName: 'user'
     });
 
-    return UserAccount;
-};
+    module.exports = userAccount;
+

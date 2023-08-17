@@ -1,16 +1,16 @@
 const express = require('express');
-const { User } = require('../models');
+const { userAccount } = require('../models');
 const router = express.Router();
 
 // Route to show registration form
-router.get('/register', (req, res) => {
+router.get('/register', ( res ) => {
     res.render('register'); 
 });
 
 // Route to handle user registration
 router.post('/register', async (req, res) => {
     try {
-        const user = await User.create({
+        const user = await userAccount.create({
             user_name: req.body.username,
             first_name: req.body.firstName,
             last_name: req.body.lastName,
@@ -28,16 +28,16 @@ router.post('/register', async (req, res) => {
 });
 
 // Route to show login form
-router.get('/login', (req, res) => {
+router.get('/login', ( res ) => {
     res.render('login'); 
 });
 
 // Route to handle user login
 router.post('/login', async (req, res) => {
     try {
-        const user = await User.findOne({ where: { user_name: req.body.username } });
+        const user = await userAccount.findOne({ where: { user_name: req.body.user_name } });
         
-        if (user && user.checkPassword(req.body.password)) {
+        if (user && userAccount.checkPassword(req.body.password)) {
             req.session.userId = user.id;
             res.redirect('/');  
         } else {
