@@ -16,19 +16,19 @@ if (config.use_env_variable) {
 }
 
 fs
-  .readdirSync(__dirname)
-  .filter(file => {
-      return (
-          file.indexOf('.') !== 0 &&
-          file !== basename &&
-          file.slice(-3) === '.js' &&
-          file.indexOf('.test.js') === -1
-      );
-  })
-  .forEach(file => {
-      const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
-      db[model.name] = model;
-  });
+    .readdirSync(__dirname)
+    .filter(file => {
+        return (
+            file.indexOf('.') !== 0 &&
+            file !== basename &&
+            file.slice(-3) === '.js' &&
+            file.indexOf('.test.js') === -1
+        );
+    })
+    .forEach(file => {
+        const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
+        db[model.name] = model;
+    });
 
 Object.keys(db).forEach(modelName => {
     if (db[modelName].associate) {
@@ -37,18 +37,20 @@ Object.keys(db).forEach(modelName => {
 });
 
 // Set up relationships
-db.User.hasMany(db.Post, {
-    foreignKey: 'user_id', // Changed to user_id which is a more standard approach
-    onDelete: 'CASCADE',
-});
+if (db.user && db.post) {  // Checking for the existence of the models
+    db.user.hasMany(db.post, {
+        foreignKey: 'user_id',
+        onDelete: 'CASCADE',
+    });
 
-User.hasMany(Post, {
-  foreignKey: 'UserName',
-  onDelete: 'CASCADE',
-});
+    db.user.hasMany(db.post, {
+        foreignKey: 'UserName',
+        onDelete: 'CASCADE',
+    });
 
-Post.belongsTo(UserName, {
-  foreignKey: 'UserName',
-});
+    db.post.belongsTo(db.user, {
+        foreignKey: 'UserName',
+    });
+}
 
-module.exports = { User, Post };
+module.exports = db;  // Export the entire db object
