@@ -1,9 +1,9 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
-const { UserAccount } = require('../models');
+const { userAccount } = require('../models');
 const router = express.Router();
 
-console.log("Imported UserAccount:", UserAccount);
+console.log("Imported UserAccount:", userAccount);
 
 
 router.get('/register', (req, res) => {
@@ -17,7 +17,7 @@ router.post('/register', async (req, res) => {
         // Hash the password
         const hashedPassword = await bcrypt.hash(pwd_hash, 10);
 
-        const user = await UserAccount.create({
+        const user = await userAccount.create({
             UserName: user_name,
             FirstName: first_name,
             LastName: last_name,
@@ -40,7 +40,7 @@ router.get('/login', (req, res) => {
 
 router.post('/login', async (req, res) => {
     try {
-        const user = await UserAccount.findOne({ where: { UserName: req.body.user_name } });
+        const user = await userAccount.findOne({ where: { UserName: req.body.user_name } });
         
         if (user && await bcrypt.compare(req.body.pwd_hash, user.Password)) {
             req.session.userId = user.id;
