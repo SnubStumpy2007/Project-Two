@@ -16,14 +16,17 @@
         <a href="/explore" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Explore Blogs</a>
     </aside>
     <main class="flex-grow">
+        {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
         <form action="/login" method="post" class="p-8 space-y-4">
             <div>
-                <label for="username" class="block mb-2 text-sm">Username</label>
-                <input type="text" id="username" name="username" required>
+                <label for="user_name" class="block mb-2 text-sm">Username</label>
+                <input type="text" id="user_name" name="user_name" required>
             </div>
             <div>
-                <label for="password" class="block mb-2 text-sm">Password</label>
-                <input type="password" id="password" name="password" required>
+                <label for="pwd_hash" class="block mb-2 text-sm">Password</label>
+                <input type="password" id="pwd_hash" name="pwd_hash" required>
             </div>
             <button type="submit" class="block w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
         </form>

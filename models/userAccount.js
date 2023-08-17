@@ -1,14 +1,13 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const sequelize = require('../config/connection');
 
-class userAccount extends Model {
+class UserAccount extends Model {
     checkPassword(loginPw) {
         return bcrypt.compareSync(loginPw, this.Password);
     }
 }
 
-module.exports = (sequelize) => {
+const initializeUserAccount = (sequelize) => {
     UserAccount.init({
         id: {
             type: DataTypes.INTEGER,
@@ -20,7 +19,7 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            primaryKey: true,
+            // Removed the primaryKey attribute here as it was set on both id and UserName
         },
         FirstName: {
             type: DataTypes.STRING,
