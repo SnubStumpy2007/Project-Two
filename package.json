@@ -27,10 +27,7 @@
     "cors": "^2.8.5",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.17.3",
-    "express.js": "^1.0.0",
-    "handlebars": "^4.7.8",
     "mysql2": "^3.6.0",
-    "node.js": "^0.0.1-security",
     "sequelize": "^6.32.1"
   },
   "devDependencies": {
