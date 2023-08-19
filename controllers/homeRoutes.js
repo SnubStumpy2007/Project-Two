@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User , Post } = require('../models');
+const { UserAccount , Post } = require('../models');
 const withAuth = require('../utils/auth');
 
 router.get('/', async (req, res) => {
@@ -8,7 +8,7 @@ router.get('/', async (req, res) => {
     const userPosts = await Post.findAll({
       include: [
         {
-          model: User,
+          model: UserAccount,
           attributes: ['UserName'],
         },
       ],
@@ -32,13 +32,21 @@ router.get('/post/:id', async (req, res) => {
     const blogContent = await Post.findByPk(req.params.id, {
       include: [
         {
-          model: User,
+          model: UserAccount,
           attributes: ['UserName'],
         },
       ],
     });
 
-    const blogPost = blogContent.get({ plain: true });
+    const blogPost = {
+      UserName: blogContent.user_name,
+      Title: blogContent.title,
+      VenueName: blogContent.venue_name,
+      EventDate: blogContent.event_date,
+      Genre: blogContent.genre,
+      DatePosted: blogContent.created_at,
+      PostText: blogContent.post_text
+    };
 
     res.render('post', {
       ...blogPost,
@@ -53,14 +61,14 @@ router.get('/post/:id', async (req, res) => {
 router.get('/profile', withAuth, async (req, res) => {
   try {
     // Find the logged in user based on the session ID
-    const userAccount = await User.findByPk(req.session.user_id, {
+    const userData = await UserAccount.findByPk(req.session.user_id, {
       attributes: { exclude: ['Password'] },
-      include: [{ model: Project }],
+      include: [{ model: Post }],
     });
 
-    const user = userAccount.get({ plain: true });
+    const user = userData.get({ plain: true });
 
-    res.render('profile', {
+    res.render('/profile', {
       ...user,
       logged_in: true
     });

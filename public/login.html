@@ -10,7 +10,7 @@
   </head>
   <body>
     <navbar
-      class="flex justify-between items-center p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black"
+      class="flex justify-between items-center p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black max-sm:p-2 max-sm:flex max-sm:flex-col"
     >
       <div class="img">
         <img src="logo.png" alt="logo" width="150" height="150" />
@@ -22,7 +22,7 @@
     </navbar>
     <section class="h-screen flex flex-col justify-start max-sm:flex max-sm:flex-col max-md:flex max-md:flex-col">
       <aside
-      class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black text-white flex-none "
+      class="p-10 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black text-white max-sm:p-5 "
       >
         <a href="index.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Home</a>
         <a href="explore.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Explore Blogs</a>
@@ -30,7 +30,18 @@
       <article
       class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600 flex-auto"
       >
-        <p>links to various blogs (dynamic Handlebars content)</p>
+      <form>  
+        <div class="container max-sm:flex max-sm:flex-col max-sm:p-5">   
+            <label>Username : </label>   
+            <input type="text" id="username" placeholder="Enter Username" name="username" required>  
+            <label>Password : </label>   
+            <input type="password" id="password" placeholder="Enter Password" name="password" required>  
+            <button type="submit">Login</button>   
+            <input type="checkbox" checked="checked"> Remember me   
+            <button type="button" class="cancelbtn"> Cancel</button>   
+            <!-- Forgot <a href="#"> password? </a>    -->
+        </div>   
+    </form>     
       </article>
     </section>
     <footer

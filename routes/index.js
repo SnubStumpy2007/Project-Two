@@ -4,7 +4,12 @@ const apiRoutes = require('./api');
 const authRoutes = require('./users');
 const dashboardRoutes = require('./dashboardRoutes');
 
-router.use('/api', apiRoutes); 
+// Root or index route to render a landing or home page
+router.get('/', (req, res) => {
+    res.render('index');  // Assuming you have an 'index.handlebars' in the 'views' folder.
+});
+
+router.use('/api', apiRoutes);
 router.use('/auth', authRoutes);
 router.use('/dashboard', dashboardRoutes);
 

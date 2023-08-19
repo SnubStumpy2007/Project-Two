@@ -1,4 +1,4 @@
 SELECT
   userAccount.user_name AS UserName
-FROM post
-JOIN UserName ON UserAccount.UserName = post.UserName;
+FROM Post
+JOIN UserName ON userAccount.user_id = Post.id;

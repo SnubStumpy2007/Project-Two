@@ -3,6 +3,7 @@ const sequelize = require('../config/connection');
 
 class Post extends Model {}
 
+const initializePost = (sequelize) => {
     Post.init(
       {
         id: {
@@ -14,7 +15,7 @@ class Post extends Model {}
         UserName: {
           type: DataTypes.STRING,
           allowNull: false,
-          primaryKey: true,
+          // Removed the primaryKey attribute here
         },
         Title: {
           type: DataTypes.STRING,
@@ -58,5 +59,10 @@ class Post extends Model {}
       }
     );
 
+    return Post;
+}
 
-module.exports = Post;
+module.exports = {
+  initializePost, // Export the initialization function
+  Post // Export the model
+};
