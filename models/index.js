@@ -7,15 +7,15 @@ const postModel = initializePost(sequelize);
 
 // Define associations
 Post.hasOne(userAccountModel, {
-  foreignKey: 'UserName',
+  foreignKey: 'user_id',
   onDelete: 'CASCADE',
 });
 userAccountModel.hasMany(Post, {
-  foreignKey: 'UserName',
+  foreignKey: 'user_id',
   onDelete: 'CASCADE',
 });
 Post.belongsTo(userAccountModel, {
-  foreignKey: 'UserName',
+  foreignKey: 'user_id',
 });
 
 module.exports = {
