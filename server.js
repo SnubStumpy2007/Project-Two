@@ -18,9 +18,10 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 console.log("Setting up Handlebars engine...");
-app.engine('hbs', exphbs({ extname: '.hbs' }));
-app.set('view engine', 'hbs');
+app.engine('handlebars', exphbs({ extname: '.handlebars' }));
+app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
+
 
 const sess = {
     secret: process.env.SESSION_SECRET || 'Super secret secret',
