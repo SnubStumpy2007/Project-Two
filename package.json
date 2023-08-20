@@ -1,30 +1,25 @@
 {
-  "name": "beatroutecolumbus",
+  "name": "project-two",
   "version": "1.0.0",
-  "description": "Blog for bootcamp",
+  "description": "Project Blog.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
-    "seed": "node seeds/seeds.js"
+    "start": "node server.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/SnubStumpy2007/Project-Two.git"
-  },
+  "keywords": [],
   "author": "",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/SnubStumpy2007/Project-Two/issues"
-  },
-  "homepage": "https://github.com/SnubStumpy2007/Project-Two#readme",
+  "license": "ISC",
   "dependencies": {
     "@craco/craco": "^7.1.0",
-    "bcrypt": "5.1.1",
+    "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^5.3.1",
     "connect-session-sequelize": "^7.1.7",
     "cors": "^2.8.5",
+    "craco": "^0.0.3",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.17.3",
     "mysql2": "^3.6.0",
@@ -33,6 +28,6 @@
   "devDependencies": {
     "nodemon": "^3.0.1",
     "sequelize-cli": "^6.6.1",
-    "tailwindcss": "^3.3.3"
+    "tailwindscss": "^0.3.0"
   }
 }
