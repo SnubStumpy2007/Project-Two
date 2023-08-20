@@ -10,15 +10,14 @@
   </head>
   <body>
 
+
     <section class="flex justify-start">
 
   {{#each blogs}}
             <p><a href="/blog/{{this.id}}">{{this.title}}</a></p>
         {{/each}}
-    </section>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
+            <script>
       $(document).ready(function () {
         $("form").submit(function (event) {
           event.preventDefault();
@@ -31,5 +30,9 @@
         });
       });
     </script>
+    </section>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   </body>
 </html>
