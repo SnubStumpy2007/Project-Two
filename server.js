@@ -3,23 +3,20 @@ const path = require('path');
 const express = require('express');
 const session = require('express-session');
 const cors = require('cors');
-const exphbs = require('express-handlebars');
+const {engine} = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
-//console.log('dotenv loaded:', dotenv); // Check if dotenv is loaded
-//console.log('express loaded:', express); // Check if express is loaded
-console.log('handlebars loaded:', exphbs)
 
 const routes = require('./routes');
 const sequelize = require('./config/connection');
-//console.log('routes loaded:', routes)
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// View engine setup
 console.log("Setting up Handlebars engine...");
-app.engine('handlebars', exphbs({ extname: '.handlebars' }));
-app.set('view engine', 'handlebars');
+app.engine('.handlebars', engine({ extname: '.handlebars', defaultLayout: "main" }));
+app.set('view engine', '.handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
 
@@ -45,10 +42,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// View engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
-app.set('view engine', 'handlebars');
+
 
 // Route setup
 app.use(routes);
