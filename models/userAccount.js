@@ -1,11 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const sequelize = require('../config/connection');
-
 
 class UserAccount extends Model {
-    checkPassword(loginPw) {
-        return bcrypt.compareSync(loginPw, this.Password);
+    async checkPassword(loginPw) {
+        return await bcrypt.compare(loginPw, this.password);
     }
 }
 
@@ -17,26 +15,25 @@ const initializeUserAccount = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        UserName: {
+        user_name: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            // Removed the primaryKey attribute here as it was set on both id and UserName
         },
-        FirstName: {
+        first_name: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 isAlphanumeric: true,
             }
         },
-        LastName: {
+        last_name: {
             type: DataTypes.STRING,
             validate: {
                 isAlphanumeric: true,
             },
         },
-        Email: {
+        email: {
             type: DataTypes.STRING,
             unique: true,
             allowNull: false,
@@ -44,7 +41,7 @@ const initializeUserAccount = (sequelize) => {
                 isEmail: true,
             }
         },
-        Password: {
+        password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -54,7 +51,7 @@ const initializeUserAccount = (sequelize) => {
     }, {
         hooks: {
             beforeCreate: async (newUserData) => {
-                newUserData.Password = await bcrypt.hash(newUserData.Password, 10);
+                newUserData.password = await bcrypt.hash(newUserData.password, 10);
                 return newUserData;
             }
         },
@@ -64,6 +61,7 @@ const initializeUserAccount = (sequelize) => {
         underscored: true,
         modelName: 'UserAccount'
     });
+
     return UserAccount;
 };
 

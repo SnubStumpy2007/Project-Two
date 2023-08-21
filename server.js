@@ -36,8 +36,7 @@ const sess = {
     })
 };
 
-// Middleware setup
-app.use(cors({ origin: 'http://127.0.0.1:5500' }));
+app.use(cors({ origin: 'http://localhost:5500' }));
 app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -46,7 +45,6 @@ app.use('/', exploreRoute);
 
 
 
-// Route setup
 app.use(routes);
 
 sequelize.sync({ force: false }).then(() => {
