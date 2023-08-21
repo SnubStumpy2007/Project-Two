@@ -12,7 +12,7 @@ Beat Route is a blog application with a focus on the local music scene here is C
 In creating this application we practiced using the following technologies: 
   - MySQL
   - Sequelize
-  - Express
+  - Node.js & Express.js
   - Handlebars
   - Tailwind.CSS
   - Heroku
