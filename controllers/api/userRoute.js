@@ -1,11 +1,15 @@
-const router = require('express').Router();
+const express = require('express');
+const bcrypt = require('bcrypt');
 const { UserAccount, Post } = require('../../models');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+const { authenticateUser } = require('../../config/middleware/auth');
+const router = express.Router();
 
+// Existing login route from controllers/api/userRoute.js
 router.post('/login', async (req, res) => {
     try {
         console.log('Login attempt with Email:', req.body.Email);
-
-        // Find the user who matches the posted e-mail address
         const user = await UserAccount.findOne({ where: { Email: req.body.Email } });
 
         if (!user) {
@@ -15,9 +19,7 @@ router.post('/login', async (req, res) => {
         }
 
         console.log('User found. Verifying password.');
-
-        // Verify the posted password with the password stored in the database
-        const validPassword = await user.checkPassword(req.body.Password);  // Please confirm that `checkPassword` is the right method name for your setup
+        const validPassword = await user.checkPassword(req.body.Password);
 
         if (!validPassword) {
             console.log('Password verification failed for Email:', req.body.Email);
@@ -26,8 +28,6 @@ router.post('/login', async (req, res) => {
         }
 
         console.log('Password verified. Creating session.');
-
-        // Create session variables based on the logged-in user
         req.session.save(() => {
             req.session.user_id = user.id;
             req.session.logged_in = true;
@@ -42,9 +42,9 @@ router.post('/login', async (req, res) => {
     }
 });
 
+// Existing search route from controllers/api/userRoute.js
 router.get('/search', async (req, res) => {
     const userSearch = req.query.homeSearch;
-
     try {
         const displayResults = await Post.findAll({
             where: {
@@ -65,14 +65,62 @@ router.get('/search', async (req, res) => {
     }
 });
 
+// Existing logout route from controllers/api/userRoute.js
 router.post('/logout', (req, res) => {
     if (req.session.logged_in) {
-        // Remove the session variables
         req.session.destroy(() => {
             res.status(204).end();
         });
     } else {
         res.status(404).end();
+    }
+});
+
+// Adding unique routes from routes/api/UserRoutes.js
+
+router.post('/api/register', async (req, res) => {
+    try {
+        const { username, email, password } = req.body;
+        if (!username || !password) {
+            return res.status(400).json({ message: 'Username and password are required.' });
+        }
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const userData = await UserAccount.create({
+            user_name: username,
+            email: email,
+            password: hashedPassword
+        });
+        res.status(200).json(userData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+});
+
+// Adding unique routes from routes/users.js
+
+router.get('/register', (req, res) => {
+    console.log('Accessing Register GET endpoint');
+    res.render('register');
+});
+
+router.get('/login', (req, res) => {
+    console.log('Accessing Login GET endpoint');
+    res.render('login');
+});
+
+router.get('/explore', authenticateUser, (req, res) => {
+    console.log('Inside explore route. Rendering explore page.');
+    res.render('explore');
+});
+
+router.get('/all-users', async (req, res) => {
+    console.log('Fetching all users');
+    try {
+        const users = await UserAccount.findAll();
+        res.json(users);
+    } catch (error) {
+        console.error("Error fetching all users:", error);
+        res.status(500).json({ error: `Error fetching all users: ${error.message}` });
     }
 });
 

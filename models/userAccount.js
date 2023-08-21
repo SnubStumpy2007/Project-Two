@@ -1,11 +1,9 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
-const sequelize = require('../config/connection');
-
 
 class UserAccount extends Model {
     async checkPassword(loginPw) {
-        return await bcrypt.compare(loginPw, this.password); // Changed this.Password to this.password
+        return await bcrypt.compare(loginPw, this.password);
     }
 }
 
@@ -17,25 +15,25 @@ const initializeUserAccount = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        user_name: { // Changed from UserName
+        user_name: {
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
         },
-        first_name: { // Changed from FirstName
+        first_name: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 isAlphanumeric: true,
             }
         },
-        last_name: { // Changed from LastName
+        last_name: {
             type: DataTypes.STRING,
             validate: {
                 isAlphanumeric: true,
             },
         },
-        email: { // Changed from Email
+        email: {
             type: DataTypes.STRING,
             unique: true,
             allowNull: false,
@@ -43,7 +41,7 @@ const initializeUserAccount = (sequelize) => {
                 isEmail: true,
             }
         },
-        password: { // Changed from Password
+        password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -53,7 +51,7 @@ const initializeUserAccount = (sequelize) => {
     }, {
         hooks: {
             beforeCreate: async (newUserData) => {
-                newUserData.password = await bcrypt.hash(newUserData.password, 10); // Changed newUserData.Password to newUserData.password
+                newUserData.password = await bcrypt.hash(newUserData.password, 10);
                 return newUserData;
             }
         },
@@ -63,10 +61,10 @@ const initializeUserAccount = (sequelize) => {
         underscored: true,
         modelName: 'UserAccount'
     });
+
     return UserAccount;
 };
 
-module.exports = initializeUserAccount;
 module.exports = {
     initializeUserAccount, // Export the initialization function
     UserAccount // Export the model
