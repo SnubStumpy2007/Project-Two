@@ -5,6 +5,9 @@ const session = require('express-session');
 const cors = require('cors');
 const {engine} = require('express-handlebars');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
+const mysql = require('mysql2');
+
+const connection = mysql.createConnection(process.env.JAWSDB_URL);
 
 
 const routes = require('./routes');
