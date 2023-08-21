@@ -1,5 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
+const sequelize = require('../config/connection');
+
 
 class UserAccount extends Model {
     async checkPassword(loginPw) {
@@ -65,3 +67,7 @@ const initializeUserAccount = (sequelize) => {
 };
 
 module.exports = initializeUserAccount;
+module.exports = {
+    initializeUserAccount, // Export the initialization function
+    UserAccount // Export the model
+};
