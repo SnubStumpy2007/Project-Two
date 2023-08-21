@@ -6,6 +6,7 @@ const userAccountModel = initializeUserAccount(sequelize);
 const postModel = initializePost(sequelize);
 
 // Define associations
+
 Post.hasOne(userAccountModel, {
   foreignKey: 'user_id',
   onDelete: 'CASCADE',
