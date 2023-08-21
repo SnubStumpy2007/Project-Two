@@ -27,19 +27,16 @@ const sess = {
     })
 };
 
-// Middleware setup
-app.use(cors({ origin: 'http://127.0.0.1:5500' }));
+app.use(cors({ origin: 'http://localhost:5500' }));
 app.use(session(sess));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// View engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs.engine({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 
-// Route setup
 app.use(routes);
 
 sequelize.sync({ force: false }).then(() => {

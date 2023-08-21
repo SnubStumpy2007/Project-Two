@@ -19,7 +19,7 @@
         {{#if error}}
         <div class="alert alert-danger">{{error}}</div>
         {{/if}}
-        <form action="/login" method="post" class="p-8 space-y-4">
+        <form action="/login" method="post" class="p-8 space-y-4 login-form">
             <div>
                 <label for="user_name" class="block mb-2 text-sm">Username</label>
                 <input type="text" id="user_name" name="user_name" required>
@@ -32,7 +32,7 @@
         </form>
     </main>
 </section>
-
+<script src='/js/login.js'></script>
 </body>
 
 </html>

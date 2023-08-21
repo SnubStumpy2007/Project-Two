@@ -2,8 +2,8 @@ const { Model, DataTypes } = require('sequelize');
 const bcrypt = require('bcrypt');
 
 class UserAccount extends Model {
-    checkPassword(loginPw) {
-        return bcrypt.compareSync(loginPw, this.Password);
+    async checkPassword(loginPw) {
+        return await bcrypt.compare(loginPw, this.password); // Changed this.Password to this.password
     }
 }
 
@@ -15,26 +15,25 @@ const initializeUserAccount = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        UserName: {
+        user_name: { // Changed from UserName
             type: DataTypes.STRING,
             allowNull: false,
             unique: true,
-            // Removed the primaryKey attribute here as it was set on both id and UserName
         },
-        FirstName: {
+        first_name: { // Changed from FirstName
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
                 isAlphanumeric: true,
             }
         },
-        LastName: {
+        last_name: { // Changed from LastName
             type: DataTypes.STRING,
             validate: {
                 isAlphanumeric: true,
             },
         },
-        Email: {
+        email: { // Changed from Email
             type: DataTypes.STRING,
             unique: true,
             allowNull: false,
@@ -42,7 +41,7 @@ const initializeUserAccount = (sequelize) => {
                 isEmail: true,
             }
         },
-        Password: {
+        password: { // Changed from Password
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
@@ -52,7 +51,7 @@ const initializeUserAccount = (sequelize) => {
     }, {
         hooks: {
             beforeCreate: async (newUserData) => {
-                newUserData.Password = await bcrypt.hash(newUserData.Password, 10);
+                newUserData.password = await bcrypt.hash(newUserData.password, 10); // Changed newUserData.Password to newUserData.password
                 return newUserData;
             }
         },
@@ -65,6 +64,4 @@ const initializeUserAccount = (sequelize) => {
     return UserAccount;
 };
 
-    module.exports = initializeUserAccount;
-    module.exports = UserAccount;
-
+module.exports = initializeUserAccount;

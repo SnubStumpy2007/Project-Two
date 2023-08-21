@@ -14,7 +14,7 @@ const initializePost = (sequelize) => {
         UserName: {
           type: DataTypes.STRING,
           allowNull: false,
-          // Removed the primaryKey attribute here
+          
         },
         Title: {
           type: DataTypes.STRING,
@@ -62,4 +62,4 @@ const initializePost = (sequelize) => {
 }
 
 module.exports = initializePost;
-module.exports = Post;
+// module.exports = Post;
