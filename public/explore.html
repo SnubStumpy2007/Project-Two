@@ -7,6 +7,15 @@
     <link href="reset.css" rel="stylesheet" />
     <link href="output.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <!DOCTYPE html>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Search Bar</title>
+        <link rel="stylesheet" href="style.css">
+      </head>
+      <body>
+        <script src="index.js"></script>
+      </body>
   </head>
   <body>
     <navbar
@@ -19,6 +28,10 @@
         <a href="login.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</a>
         <a href="register.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</a>
       </div>
+      <div class="container" id="blogContainer">
+        
+    </div>
+    <button id="newPostButton">New Post</button>
     </navbar>
     <section class="h-screen flex flex-col justify-start max-sm:flex max-sm:flex-col max-md:flex max-md:flex-col">
       <aside
@@ -26,6 +39,7 @@
       >
         <a href="index.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Home</a>
         <a href="explore.html" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Explore Blogs</a>
+        <a href="newpost.js" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">New Post</a>
       </aside>
       <article
       class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600 flex-auto"
