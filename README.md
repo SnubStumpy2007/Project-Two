@@ -30,10 +30,10 @@ N/A
 ## Usage
 
 ## Collaborators
-- Nick Stypinski - GitHub: SnubStumpy2007
-- Darnell Adams - GitHub: Dadams11
-- Molly Snyder - GitHub: msnyder3
-- Lexi Lightle - GitHub: alexislightle18
+  - Nick Stypinski - GitHub: SnubStumpy2007
+  - Darnell Adams - GitHub: Dadams11
+  - Molly Snyder - GitHub: msnyder3
+  - Lexi Lightle - GitHub: alexislightle18
 
 ## License
 MIT License
