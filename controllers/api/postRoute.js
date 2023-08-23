@@ -4,7 +4,7 @@ const { Post, UserAccount } = require('../../models'); // Import your models
 const withAuth = require('../../utils/auth'); // Import authentication middleware
 
 // Route to create a new post (requires authentication)
-router.post('/', withAuth, async (req, res) =>{ 
+router.post('/', withAuth, async (req, res) => {
   try {
     // Create a new post with the data from the request body and the user's session ID
     const newPost = await Post.create({
@@ -53,11 +53,11 @@ router.delete('/:id', withAuth, async (req, res) => {
   try {
     // Delete a post based on the provided ID and the user's session ID
     const blogPost = await Post.destroy({
-        where: {
-          id: req.params.id,
-          user_id: req.session.user_id,
-        },
-      });
+      where: {
+        id: req.params.id,
+        user_id: req.session.user_id,
+      },
+    });
 
     if (!blogPost) {
       // Handle the case where the post was not found
