@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
     const blogPosts = userPosts.map((blogPost) => blogPost.get({ plain: true }));
 
     // Pass serialized data and session flag into the template
-    res.render('profile', {
+    res.render('/profile', {
       blogPosts,
       logged_in: req.session.logged_in,
     });
@@ -49,12 +49,12 @@ router.get('/post/:id', async (req, res) => {
       VenueName: blogContent.venue_name,
       EventDate: blogContent.event_date,
       Genre: blogContent.genre,
-      DatePosted: blogContent.created_at,
+      DatePosted: blogContent.created_on,
       PostText: blogContent.post_text,
     };
 
     // Pass the structured blog post data and session flag into the template
-    res.render('post', {
+    res.render('/post', {
       ...blogPost,
       logged_in: req.session.logged_in,
     });
@@ -76,7 +76,7 @@ router.get('/profile', withAuth, async (req, res) => {
     const user = userData.get({ plain: true });
 
     // Pass the serialized user data and session flag into the template
-    res.render('profile', {
+    res.render('/profile', {
       ...user,
       logged_in: true,
     });
@@ -93,7 +93,7 @@ router.get('/login', (req, res) => {
     return;
   }
 
-  res.render('login'); // Render the login view
+  res.render('/login'); // Render the login view
 });
 
 // Export the router for use in other parts of the application
