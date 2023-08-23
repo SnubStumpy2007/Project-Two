@@ -4,32 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include a stylesheet for styling -->
     <link href="/styles/styles.css" rel="stylesheet">
+    <!-- Set the title of the page -->
     <title>Login</title>
 </head>
 
 <body>
-
-<section class="flex justify-start">
-
-    <main class="flex-grow">
-        {{#if error}}
-        <div class="alert alert-danger">{{error}}</div>
-        {{/if}}
-        <form action="/login" method="post" class="p-8 space-y-4">
-            <div>
-                <label for="user_name" class="block mb-2 text-sm">Username</label>
-                <input type="text" id="user_name" name="user_name" required>
-            </div>
-            <div>
-                <label for="pwd_hash" class="block mb-2 text-sm">Password</label>
-                <input type="password" id="pwd_hash" name="pwd_hash" required>
-            </div>
-            <button type="submit" class="block w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
-        </form>
-    </main>
-</section>
-
+    <!-- Create a flex layout section with left alignment -->
+    <section class="flex justify-start">
+        <!-- Create a main section that takes up the remaining space -->
+        <main class="flex-grow">
+            <!-- Check if there's an error message to display -->
+            {{#if error}}
+            <!-- Display an error message with a specific style -->
+            <div class="alert alert-danger">{{error}}</div>
+            {{/if}}
+            <!-- Create a form for user login with specific styling -->
+            <form action="/login" method="post" class="p-8 space-y-4">
+                <!-- Create a field for entering a username -->
+                <div>
+                    <label for="user_name" class="block mb-2 text-sm">Username</label>
+                    <!-- Create an input field for the username with a 'user_name' id and 'required' attribute -->
+                    <input type="text" id="user_name" name="user_name" required>
+                </div>
+                <!-- Create a field for entering a password -->
+                <div>
+                    <label for="pwd_hash" class="block mb-2 text-sm">Password</label>
+                    <!-- Create an input field for the password with a 'pwd_hash' id and 'required' attribute -->
+                    <input type="password" id="pwd_hash" name="pwd_hash" required>
+                </div>
+                <!-- Create a login button with specific styling -->
+                <button type="submit"
+                    class="block w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
+            </form>
+        </main>
+    </section>
 </body>
 
 </html>

@@ -4,44 +4,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Include a stylesheet for styling -->
     <link href="/styles/styles.css" rel="stylesheet">
+    <!-- Set the title of the page -->
     <title>Register</title>
 </head>
 
 <body>
-
-<section class="flex justify-start">
-
-    <main class="flex-grow">
-       <form action="/auth/register" method="post" class="p-8 space-y-4">
-    <div>
-        <label for="username" class="block mb-2 text-sm">Username</label>
-        <input type="text" id="username" name="user_name" required>
-    </div>
-    <div>
-        <label for="firstName" class="block mb-2 text-sm">First Name</label>
-        <input type="text" id="firstName" name="first_name" required>
-    </div>
-    <div>
-        <label for="lastName" class="block mb-2 text-sm">Last Name</label>
-        <input type="text" id="lastName" name="last_name" required>
-    </div>
-    <div>
-        <label for="email" class="block mb-2 text-sm">Email</label>
-        <input type="email" id="email" name="email" required>
-    </div>
-    <div>
-        <label for="password" class="block mb-2 text-sm">Password</label>
-        <input type="password" id="password" name="pwd_hash" required>
-    </div>
-    <button type="submit" class="block w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
-</form>
-        {{#if error}} <!-- Check if the error exists -->
-            <p class="mt-4 text-red-500">{{error}}</p> <!-- Display the error -->
-        {{/if}}
-    </main>
-</section>
-
+    <!-- Create a flex layout section with left alignment -->
+    <section class="flex justify-start">
+        <!-- Create a main section that takes up the remaining space -->
+        <main class="flex-grow">
+            <!-- Create a form for user registration with specific styling -->
+            <form action="/auth/register" method="post" class="p-8 space-y-4">
+                <!-- Create a field for entering a username -->
+                <div>
+                    <label for="username" class="block mb-2 text-sm">Username</label>
+                    <!-- Create an input field for the username with an 'id' and 'name' attribute, and it's required -->
+                    <input type="text" id="username" name="user_name" required>
+                </div>
+                <!-- Create a field for entering a first name -->
+                <div>
+                    <label for="firstName" class="block mb-2 text-sm">First Name</label>
+                    <!-- Create an input field for the first name with an 'id' and 'name' attribute, and it's required -->
+                    <input type="text" id="firstName" name="first_name" required>
+                </div>
+                <!-- Create a field for entering a last name -->
+                <div>
+                    <label for="lastName" class="block mb-2 text-sm">Last Name</label>
+                    <!-- Create an input field for the last name with an 'id' and 'name' attribute, and it's required -->
+                    <input type="text" id="lastName" name="last_name" required>
+                </div>
+                <!-- Create a field for entering an email -->
+                <div>
+                    <label for="email" class="block mb-2 text-sm">Email</label>
+                    <!-- Create an input field for the email with an 'id' and 'name' attribute, and it's required -->
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <!-- Create a field for entering a password -->
+                <div>
+                    <label for="password" class="block mb-2 text-sm">Password</label>
+                    <!-- Create an input field for the password with an 'id' and 'name' attribute, and it's required -->
+                    <input type="password" id="password" name="pwd_hash" required>
+                </div>
+                <!-- Create a registration button with specific styling -->
+                <button type="submit"
+                    class="block w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Register</button>
+            </form>
+            <!-- Check if there's an error message to display -->
+            {{#if error}}
+            <!-- Display the error message with specific styling -->
+            <p class="mt-4 text-red-500">{{error}}</p>
+            {{/if}}
+        </main>
+    </section>
 </body>
 
 </html>
