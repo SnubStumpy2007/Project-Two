@@ -1,38 +1,43 @@
-<!DOCTYPE html>
-<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Set the title of the page using a dynamic variable {{pageTitle}} -->
     <title>{{pageTitle}}</title>
+    <!-- Include a CSS reset and an output stylesheet for styling -->
     <link href="reset.css" rel="stylesheet" />
     <link href="output.css" rel="stylesheet" />
+    <!-- Include the Tailwind CSS framework from a CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
-
-
+    <!-- Create a section with flex layout and left alignment -->
     <section class="flex justify-start">
-
-  {{#each blogs}}
-            <p><a href="/blog/{{this.id}}">{{this.title}}</a></p>
-        {{/each}}
-
-            <script>
-      $(document).ready(function () {
-        $("form").submit(function (event) {
-          event.preventDefault();
+      <!-- Iterate over each blog entry in the 'blogs' array -->
+      {{#each blogs}}
+        <!-- Display a link to each blog entry with its title and a dynamic URL -->
+        <p><a href="/blog/{{this.id}}">{{this.title}}</a></p>
+      {{/each}}
+      <!-- Start a script block for JavaScript code -->
+      <script>
+        // When the document is ready, execute this function
+        $(document).ready(function () {
+          // Prevent the default form submission behavior
+          $("form").submit(function (event) {
+            event.preventDefault();
     
-          const searchTerm = $("input[name='homeSearch']").val();
+            // Retrieve the value from the input field named 'homeSearch'
+            const searchTerm = $("input[name='homeSearch']").val();
     
-          $.get(`/search?homeSearch=${searchTerm}`, function (data) {
-            console.log(data);
+            // Send an AJAX GET request to the '/search' endpoint with the search term
+            $.get(`/search?homeSearch=${searchTerm}`, function (data) {
+              // Log the response data to the console
+              console.log(data);
+            });
           });
         });
-      });
-    </script>
+      </script>
     </section>
-
+    <!-- Include jQuery library from a CDN -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
   </body>
 </html>

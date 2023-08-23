@@ -1,31 +1,15 @@
+// Import necessary modules and define the main router
 const router = require('express').Router();
 
-const apiRoutes = require('./api');
-const homeRoutes = require('./homeRoutes');
-const authRoutes = require('./api/userRoute');
-// const dashboardRoutes = require('./dashboardRoutes');
+// Import API and home routes
+const apiRoutes = require('./api');       // Routes for API endpoints
+const homeRoutes = require('./homeRoutes'); // Routes for home and web pages
 
-// Home routes (assuming this was from your 'controllers/index.js')
+// Use the homeRoutes for routes starting with '/'
 router.use('/', homeRoutes);
 
-// API routes
+// Use the apiRoutes for routes starting with '/api'
 router.use('/api', apiRoutes);
 
-// Auth routes
-router.use('/auth', authRoutes);
-
-// Dashboard routes
-//router.use('/dashboard', dashboardRoutes);
-
-// Root or index route to render a landing or home page 
-// (This has been moved down to avoid conflicts with other routes)
-router.get('/', (req, res) => {
-    res.render('index');  // Assuming you have an 'index.handlebars' in the 'views' folder.
-});
-
-// Add a catch-all route for any other request (Not Found)
-router.use((req, res) => {
-    res.status(404).send('Not Found');
-});
-
+// Export the main router for use in other parts of the application
 module.exports = router;

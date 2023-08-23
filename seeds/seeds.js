@@ -1,25 +1,34 @@
+// Import the Sequelize instance and necessary models
 const sequelize = require('../config/connection');
-const { UserAccount , Post } = require('../models');
+const { UserAccount, Post } = require('../models');
 
-const userAccount = require('./userAccounts.json');
-const userPosts = require('./userPosts.json');
+// Import JSON data for user accounts and posts
+const userAccountData = require('./userAccounts.json');
+const userPostsData = require('./userPosts.json');
 
+// Define a function to seed the database
 const seedDatabase = async () => {
+  // Sync the database and force a reset (deleting existing data)
   await sequelize.sync({ force: true });
 
-  const users = await UserAccount.bulkCreate(userAccount, {
+  // Bulk insert user accounts using individual hooks and returning the created records
+  const users = await UserAccount.bulkCreate(userAccountData, {
     individualHooks: true,
     returning: true,
   });
 
-  for (const post of userPosts) {
-     await Post.create({
+  // Loop through userPostsData and create posts for each user
+  for (const post of userPostsData) {
+    await Post.create({
       ...post,
-      author: users.id,
+      // Assign a random user ID as the UserName for each post
+      UserName: users[Math.floor(Math.random() * users.length)].id,
     });
   }
 
+  // Exit the process once seeding is complete
   process.exit(0);
 };
 
+// Call the seedDatabase function to start the seeding process
 seedDatabase();

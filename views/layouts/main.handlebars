@@ -1,57 +1,73 @@
+<!DOCTYPE html>
 <html lang="en">
 
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Blog</title>
+    <!-- Include CSS stylesheets from your project -->
     <link href="/css/reset.css" rel="stylesheet" />
     <link href="/css/output.css" rel="stylesheet" />
+    <!-- Include the Tailwind CSS library -->
     <script src="https://cdn.tailwindcss.com"></script>
-  </head>
+</head>
 
-  <body>
+<body>
+    <!-- Navigation Bar -->
     <navbar
-      class="flex justify-between items-center p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600 max-sm:p-2 max-sm:flex max-sm:flex-col mx-md:p-5"
+        class="flex justify-between items-center p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600 max-sm:p-2 max-sm:flex max-sm:flex-col mx-md:p-5"
     >
-      <div class="img">
-        <img src="../../logo.png" alt="logo" width="150" height="150" />
-      </div>
-      <div id="btn" class="text-white">
-        <a
-          href="/auth/login"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >Login</a>
-        <a
-          href="/auth/register"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >Register</a>
-      </div>
+        <div class="img">
+            <!-- Display the logo image -->
+            <img src="../../logo.png" alt="logo" width="150" height="150" />
+        </div>
+        <div id="btn" class="text-white">
+            <!-- Navigation links for Login and Register -->
+            <a
+                href="/auth/login"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >Login</a>
+            <a
+                href="/auth/register"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >Register</a>
+        </div>
     </navbar>
+
+    <!-- Main Content Section -->
     <section
-      class="h-screen bg-black text-white flex justify-start max-sm:flex max-sm:flex-col max-md:flex max-md:flex-col"
+        class="h-screen bg-black text-white flex justify-start max-sm:flex max-sm:flex-col max-md:flex max-md:flex-col"
     >
-      <aside
-        class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black flex-none"
-      >
-        <a
-          href="/"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >Home</a>
-        <a
-          href="/explore"
-          class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        >Explore Blogs</a>
-      </aside>
-      <article class="p-10">
-        {{{body}}}
-        <!-- This is where the content of other handlebars templates, like index.handlebars, will be injected. -->
-      </article>
+        <!-- Sidebar -->
+        <aside
+            class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-black flex-none"
+        >
+            <!-- Sidebar navigation links -->
+            <a
+                href="/"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >Home</a>
+            <a
+                href="/explore"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >Explore Blogs</a>
+        </aside>
+
+        <!-- Article Content -->
+        <article class="p-10">
+            <!-- The content of the article will be dynamically injected here -->
+            {{{body}}}
+            <!-- This is where the content of other handlebars templates, like index.handlebars, will be injected. -->
+        </article>
     </section>
+
+    <!-- Footer Section -->
     <footer
-      class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600"
+        class="p-7 border-solid border-4 border-indigo-500/100 border-x-indigo-500 bg-red-600"
     >
-      <p>© 2023 Beat Route Columbus, Columbus, Ohio. All Rights Reserved.</p>
+        <!-- Copyright and footer text -->
+        <p>© 2023 Beat Route Columbus, Columbus, Ohio. All Rights Reserved.</p>
     </footer>
-  </body>
+</body>
 
 </html>
