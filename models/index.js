@@ -1,37 +1,34 @@
-const Sequelize = require('sequelize');
-const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+// Import your Sequelize instance from '../config/connection'
+const sequelize = require('../config/connection');
 
-// Initialize Sequelize instance
-let sequelize;
-if (config.use_env_variable) {
-    sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-    sequelize = new Sequelize(config.database, config.username, config.password, config);
-}
-
-// Require initialization functions
+// Import and initialize your UserAccount and Post models
 const { initializeUserAccount, UserAccount } = require('./userAccount');
 const { initializePost, Post } = require('./post');
 
-// Initialize models
-initializeUserAccount(sequelize);
-initializePost(sequelize);
+// Initialize the UserAccount and Post models with your Sequelize instance
+const userAccountModel = initializeUserAccount(sequelize);
+const postModel = initializePost(sequelize);
 
-// Set Associations
-Post.hasOne(UserAccount, {
+// Define associations between UserAccount and Post models
+// A Post "has one" UserAccount (author), and a UserAccount "has many" Posts
+// The 'onDelete: CASCADE' option ensures that if a UserAccount is deleted, its associated Posts are also deleted
+Post.hasOne(userAccountModel, {
   foreignKey: 'user_id',
   onDelete: 'CASCADE',
 });
 
-UserAccount.hasMany(Post, {
+userAccountModel.hasMany(Post, {
   foreignKey: 'user_id',
   onDelete: 'CASCADE',
 });
 
-Post.belongsTo(UserAccount, {
+// Define a reverse association to retrieve a UserAccount's posts
+Post.belongsTo(userAccountModel, {
   foreignKey: 'user_id',
 });
 
-// Export Models
-module.exports = { UserAccount, Post };
+// Export the initialized models for use in other parts of the application
+module.exports = {
+  UserAccount: userAccountModel,
+  Post: postModel,
+};

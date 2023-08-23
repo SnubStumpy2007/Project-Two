@@ -1,127 +1,113 @@
-const express = require('express');
-const bcrypt = require('bcrypt');
+// Import necessary modules and models
+const router = require('express').Router();
 const { UserAccount, Post } = require('../../models');
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-const { authenticateUser } = require('../../config/middleware/auth');
-const router = express.Router();
 
-// Existing login route from controllers/api/userRoute.js
-router.post('/login', async (req, res) => {
-    try {
-        console.log('Login attempt with Email:', req.body.Email);
-        const user = await UserAccount.findOne({ where: { Email: req.body.Email } });
-
-        if (!user) {
-            console.log('User not found with Email:', req.body.Email);
-            res.status(400).json({ message: 'Incorrect email or password, please try again' });
-            return;
-        }
-
-        console.log('User found. Verifying password.');
-        const validPassword = await user.checkPassword(req.body.Password);
-
-        if (!validPassword) {
-            console.log('Password verification failed for Email:', req.body.Email);
-            res.status(400).json({ message: 'Incorrect email or password, please try again' });
-            return;
-        }
-
-        console.log('Password verified. Creating session.');
-        req.session.save(() => {
-            req.session.user_id = user.id;
-            req.session.logged_in = true;
-
-            console.log('Session saved for User ID:', user.id);
-            res.json({ user: user, message: 'You are now logged in!' });
-        });
-
-    } catch (err) {
-        console.error('Error occurred during login:', err);
-        res.status(400).json(err);
-    }
-});
-
-// Existing search route from controllers/api/userRoute.js
-router.get('/search', async (req, res) => {
-    const userSearch = req.query.homeSearch;
-    try {
-        const displayResults = await Post.findAll({
-            where: {
-                [Op.or]: [
-                    { Title: { [Op.iLike]: userSearch } },
-                    { VenueName: { [Op.iLike]: userSearch } },
-                    { Genre: { [Op.iLike]: userSearch } },
-                    { EventDate: { [Op.iLike]: userSearch } },
-                    { UserName: { [Op.iLike]: userSearch } },
-                    { created_on: { [Op.iLike]: userSearch } }
-                ],
-            },
-        });
-        res.status(200).json(displayResults);
-    } catch (err) {
-        console.error('Error occurred during search:', err);
-        res.status(500).json({ message: 'Could Not Find Results' });
-    }
-});
-
-// Existing logout route from controllers/api/userRoute.js
-router.post('/logout', (req, res) => {
-    if (req.session.logged_in) {
-        req.session.destroy(() => {
-            res.status(204).end();
-        });
-    } else {
-        res.status(404).end();
-    }
-});
-
-// Adding unique routes from routes/api/UserRoutes.js
-
-router.post('/api/register', async (req, res) => {
-    try {
-        const { username, email, password } = req.body;
-        if (!username || !password) {
-            return res.status(400).json({ message: 'Username and password are required.' });
-        }
-        const hashedPassword = await bcrypt.hash(password, 10);
-        const userData = await UserAccount.create({
-            user_name: username,
-            email: email,
-            password: hashedPassword
-        });
-        res.status(200).json(userData);
-    } catch (err) {
-        res.status(400).json(err);
-    }
-});
-
-// Adding unique routes from routes/users.js
-
+// Route to render the registration form
 router.get('/register', (req, res) => {
-    console.log('Accessing Register GET endpoint');
-    res.render('register');
+  res.render('register'); // Render the registration view
 });
 
-router.get('/login', (req, res) => {
-    console.log('Accessing Login GET endpoint');
-    res.render('login');
+// Route to handle user registration
+router.post('/register', async (req, res) => {
+  try {
+      // Extract user registration data from the request body
+      const { user_name, first_name, last_name, email, pwd_hash } = req.body;
+
+      // Hash the password using bcrypt with a salt factor of 10
+      const hashedPassword = await bcrypt.hash(pwd_hash, 10);
+
+      // Create a new user account in the database
+      const user = await UserAccount.create({
+          UserName: user_name,
+          FirstName: first_name,
+          LastName: last_name,
+          Email: email,
+          Password: hashedPassword
+      });
+
+      // Store the user's ID in the session for tracking their login status
+      req.session.userId = user.id;
+
+      // Log a success message and redirect to the login page
+      console.log("User registration successful. Redirecting to login...");
+      res.redirect('/auth/login');
+  } catch (error) {
+      // Handle registration errors and send an error response
+      console.error("Registration error:", error);
+      res.status(500).send(`Registration error: ${error.message}`);
+  }
 });
 
-router.get('/explore', authenticateUser, (req, res) => {
-    console.log('Inside explore route. Rendering explore page.');
-    res.render('explore');
+// Route to handle user login
+router.post('/login', async (req, res) => {
+  try {
+      // Find a user with the provided username
+      const user = await UserAccount.findOne({ where: { UserName: req.body.user_name } });
+
+      // Check if the user exists and the provided password matches the hashed password
+      if (user && await bcrypt.compare(req.body.pwd_hash, user.Password)) {
+          // Store the user's ID in the session for tracking their login status
+          req.session.userId = user.id;
+
+          // Redirect to the home page or another appropriate destination
+          res.redirect('/');
+      } else {
+          // If login fails, render the login page with an error message
+          res.render('login', { error: 'Invalid username or password' });
+      }
+
+    // Create session variables based on the logged-in user
+    req.session.save(() => {
+      req.session.user_id = user.id;
+      req.session.logged_in = true;
+      
+      res.json({ user: user, message: 'You are now logged in!' });
+    });
+
+    // Handle login errors and send an error response
+  } catch (err) {
+    console.error("Login error:", error);
+    res.status(400).json(err);
+  }
 });
 
-router.get('/all-users', async (req, res) => {
-    console.log('Fetching all users');
-    try {
-        const users = await UserAccount.findAll();
-        res.json(users);
-    } catch (error) {
-        console.error("Error fetching all users:", error);
-        res.status(500).json({ error: `Error fetching all users: ${error.message}` });
-    }
+// Route to handle user search
+router.get('/search', async (req, res) => {
+  const userSearch = req.query.homeSearch;
+
+  try {
+    // Find and return search results in a JSON response
+    const displayResults = await Post.findAll({
+      where: {
+        [Op.or]: [
+          { Title: { [Op.iLike]: userSearch } },
+          { VenueName: { [Op.iLike]: userSearch } },
+          { Genre: { [Op.iLike]: userSearch } },
+          { EventDate: { [Op.iLike]: userSearch } },
+          { UserName: { [Op.iLike]: userSearch } },
+          { created_on: { [Op.iLike]: userSearch } }
+        ],
+      },
+    });
+    res.status(200).json(displayResults);
+  } catch (err) {
+    // Handle errors by sending a JSON response with an error message
+    res.status(500).json({ message: 'Could Not Find Results' });
+  }
 });
 
+// Route to handle user logout
+router.post('/logout', (req, res) => {
+  if (req.session.logged_in) {
+    // Remove the session variables to log out the user
+    req.session.destroy(() => {
+      res.status(204).end();
+    });
+  } else {
+    // If the user is not logged in, return a 404 error
+    res.status(404).end();
+  }
+});
+
+// Export the router for use in other parts of the application
 module.exports = router;
