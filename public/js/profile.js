@@ -1,3 +1,23 @@
+//pull user data for profile page
+const source = document.getElementById("profile-info").innerHTML;
+const template = Handlebars.compile(source);
+
+// Sample data for the template
+const context = {
+    user_name: UserAccount.user_name,
+    first_name: UserAccount.first_name,
+    last_name: UserAccount.last_name,
+    email: UserAccount.email
+};
+
+// Render the template with the data
+const renderedHtml = template(context);
+
+// Insert the rendered HTML into the DOM
+const profileContainer = document.getElementById("profile");
+profileContainer.innerHTML = renderedHtml;
+
+
 // Define an asynchronous function that handles form submission for creating a new project
 const newFormHandler = async (event) => {
     event.preventDefault(); // Prevent the default form submission behavior
@@ -24,7 +44,7 @@ const newFormHandler = async (event) => {
       if (response.ok) {
         document.location.replace('/profile');
       } else {
-        alert('Failed to create project');
+        alert('Failed to create post');
       }
     }
 };

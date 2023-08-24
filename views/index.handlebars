@@ -7,15 +7,28 @@
     <section class="homeSearch" id="results-section" style="display: none;">
         <h2>Discover shows and venues near you!</h2>
         <p>You can search here by Venue, Genre, or Date!</p>
-        <form action="/search" id="results">
-        <div class="control">
-          <input type="text" id="search-input" class="input" placeholder="Search now!">
-        </div>
-        <div class="control">
-          <button type="submit" class="block w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Search</button>
-        </div>
-        </form>
-    <section id="results-section" class="section" style="display: none;">
-    
-  </section>
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button id="searchButton">Search</button>
+        
+    <script>
+        const searchButton = document.getElementById('searchButton');
+        const resultsDiv = document.getElementById('results');
+        
+        searchButton.addEventListener('click', async () => {
+            const homeSearch = document.getElementById('searchInput').value;
+            const response = await fetch(`/search?term=${homeSearch}`);
+            const searchResults = await response.json();
+
+            // Display search results
+            resultsDiv.innerHTML = '';
+            searchResults.forEach(result => {
+                const postPreview = document.createElement('p');
+                postPreview.textContent = result.title;
+                postPreview.author = result.user_name;
+                postPreview.eventdate = result.event_date;
+                resultsDiv.appendChild(postPreview);
+            });
+        });
+    </script>
+
     </section>

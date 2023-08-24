@@ -18,7 +18,7 @@ router.use('/auth', authRoute);
 router.use('/register', registerRoute);
 router.use('/users', userRoute);
 router.use('/api', apiRoutes);
-router.use('/dashboard', dashboardRoutes);
+router.use('/profile', dashboardRoutes);
 router.use('/explore', exploreRoute);
 router.use('/post', postRoute);
 router.use('/search', searchRoute);
