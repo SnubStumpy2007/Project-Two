@@ -32,7 +32,7 @@ const sess = {
         db: sequelize                   // Store sessions in your Sequelize-powered database
     })
 };
-//test
+
 // Configure the view engine for rendering HTML templates
 console.log("Setting up Handlebars engine...");
 app.engine('.handlebars', engine({ extname: '.handlebars', defaultLayout: "main" }));
