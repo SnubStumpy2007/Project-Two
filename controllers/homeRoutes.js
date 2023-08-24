@@ -12,7 +12,7 @@ router.get('/', async (req, res) => {
         {
           model: UserAccount,
           attributes: ['UserName'],
-      },
+        },
       ],
     });
 

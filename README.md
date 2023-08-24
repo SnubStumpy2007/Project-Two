@@ -18,6 +18,10 @@ In creating this application we practiced using the following technologies:
   - Heroku
 As a group we also learned a lot about building as a team and using GitHub as a team.
 
+
+![image](https://github.com/SnubStumpy2007/Project-Two/assets/131561844/7e26ffe7-da64-4235-87ef-613c73a36140)
+
+
 ## Table of Contents
 Installation
 Usage
@@ -40,4 +44,7 @@ MIT License
 
 ## Deployment
 Deployed to Heroku at the link below:
-https://project-two-beat-f8960ecb8af2.herokuapp.com
+https://beat-4a3062f2d9b9.herokuapp.com/
+
+GitHub Link:
+https://github.com/SnubStumpy2007/Project-Two

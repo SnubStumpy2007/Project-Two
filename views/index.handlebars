@@ -1,3 +1,34 @@
-<h1>Welcome to the Blog</h1>
-<p>Some introductory content for the homepage...</p>
-<p>I'm Elize Lutus!  Nice to meet you!</p>
+  <header>
+        <h1>Welcome to Beat Route</h1>
+        <p>Come discover local music around Columbus, Ohio</p>
+        <p>Connect with your fellow music lovers and neighbors and share your experiences all over the city!</p>
+    </header>
+
+    <section class="homeSearch" id="results-section" style="display: none;">
+        <h2>Discover shows and venues near you!</h2>
+        <p>You can search here by Venue, Genre, or Date!</p>
+        <input type="text" id="searchInput" placeholder="Search...">
+        <button id="searchButton">Search</button>
+        
+    <script>
+        const searchButton = document.getElementById('searchButton');
+        const resultsDiv = document.getElementById('results');
+        
+        searchButton.addEventListener('click', async () => {
+            const homeSearch = document.getElementById('searchInput').value;
+            const response = await fetch(`/search?term=${homeSearch}`);
+            const searchResults = await response.json();
+
+            // Display search results
+            resultsDiv.innerHTML = '';
+            searchResults.forEach(result => {
+                const postPreview = document.createElement('p');
+                postPreview.textContent = result.title;
+                postPreview.author = result.user_name;
+                postPreview.eventdate = result.event_date;
+                resultsDiv.appendChild(postPreview);
+            });
+        });
+    </script>
+
+    </section>

@@ -13,9 +13,9 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // Import routes and Sequelize database connection
-const routes = require('./controllers');            // Your application's custom routes
+const routes = require('./routes');            // Your application's custom routes
 const sequelize = require('./config/connection');  // Sequelize database connection
-const exploreRoute = require('./controllers/api/explore');  // Custom route for exploring
+const exploreRoute = require('./routes/explore');  // Custom route for exploring
 
 // Configuration for managing user sessions using express-session
 const sess = {

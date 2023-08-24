@@ -2,7 +2,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Set the title of the page using a dynamic variable {{pageTitle}} -->
-    <title>{{pageTitle}}</title>
+    <title>Welcome to Beat Route!</title>
     <!-- Include a CSS reset and an output stylesheet for styling -->
     <link href="reset.css" rel="stylesheet" />
     <link href="output.css" rel="stylesheet" />
@@ -15,7 +15,7 @@
       <!-- Iterate over each blog entry in the 'blogs' array -->
       {{#each blogs}}
         <!-- Display a link to each blog entry with its title and a dynamic URL -->
-        <p><a href="/blog/{{this.id}}">{{this.title}}</a></p>
+        <p><a href="/post/{{this.id}}">{{this.title}}</a></p>
       {{/each}}
       <!-- Start a script block for JavaScript code -->
       <script>

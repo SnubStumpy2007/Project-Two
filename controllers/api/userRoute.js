@@ -2,59 +2,30 @@
 const router = require('express').Router();
 const { UserAccount, Post } = require('../../models');
 
-// Route to render the registration form
-router.get('/register', (req, res) => {
-  res.render('register'); // Render the registration view
-});
-
-// Route to handle user registration
-router.post('/register', async (req, res) => {
-  try {
-      // Extract user registration data from the request body
-      const { user_name, first_name, last_name, email, pwd_hash } = req.body;
-
-      // Hash the password using bcrypt with a salt factor of 10
-      const hashedPassword = await bcrypt.hash(pwd_hash, 10);
-
-      // Create a new user account in the database
-      const user = await UserAccount.create({
-          UserName: user_name,
-          FirstName: first_name,
-          LastName: last_name,
-          Email: email,
-          Password: hashedPassword
-      });
-
-      // Store the user's ID in the session for tracking their login status
-      req.session.userId = user.id;
-
-      // Log a success message and redirect to the login page
-      console.log("User registration successful. Redirecting to login...");
-      res.redirect('/auth/login');
-  } catch (error) {
-      // Handle registration errors and send an error response
-      console.error("Registration error:", error);
-      res.status(500).send(`Registration error: ${error.message}`);
-  }
-});
-
 // Route to handle user login
 router.post('/login', async (req, res) => {
   try {
-      // Find a user with the provided username
-      const user = await UserAccount.findOne({ where: { UserName: req.body.user_name } });
+    // Find the user who matches the posted email address
+    const user = await UserAccount.findOne({ where: { Email: req.body.Email } });
 
-      // Check if the user exists and the provided password matches the hashed password
-      if (user && await bcrypt.compare(req.body.pwd_hash, user.Password)) {
-          // Store the user's ID in the session for tracking their login status
-          req.session.userId = user.id;
+    if (!user) {
+      // If no user is found, return an error message
+      res
+        .status(400)
+        .json({ message: 'Incorrect email or password, please try again' });
+      return;
+    }
 
-          // Redirect to the home page or another appropriate destination
-          res.redirect('/');
-      } else {
-          // If login fails, render the login page with an error message
-          res.render('login', { error: 'Invalid username or password' });
-      }
+    // Verify the posted password with the password stored in the database
+    const validPassword = await user.checkPassword(req.body.Password);
+
+    if (!validPassword) {
+      // If the password is incorrect, return an error message
+      res
+        .status(400)
+        .json({ message: 'Incorrect email or password, please try again' });
+      return;
+    }
 
     // Create session variables based on the logged-in user
     req.session.save(() => {
@@ -64,9 +35,8 @@ router.post('/login', async (req, res) => {
       res.json({ user: user, message: 'You are now logged in!' });
     });
 
-    // Handle login errors and send an error response
   } catch (err) {
-    console.error("Login error:", error);
+    // Handle errors by sending a JSON response with an error message
     res.status(400).json(err);
   }
 });
