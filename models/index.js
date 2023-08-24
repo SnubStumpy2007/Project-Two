@@ -12,12 +12,7 @@ const postModel = initializePost(sequelize);
 // Define associations between UserAccount and Post models
 // A Post "has one" UserAccount (author), and a UserAccount "has many" Posts
 // The 'onDelete: CASCADE' option ensures that if a UserAccount is deleted, its associated Posts are also deleted
-Post.hasOne(userAccountModel, {
-  foreignKey: 'user_id',
-  onDelete: 'CASCADE',
-});
-
-userAccountModel.hasMany(Post, {
+UserAccount.hasMany(Post, {
   foreignKey: 'user_id',
   onDelete: 'CASCADE',
 });

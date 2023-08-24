@@ -55,7 +55,7 @@ router.get('/search', async (req, res) => {
           { Genre: { [Op.iLike]: userSearch } },
           { EventDate: { [Op.iLike]: userSearch } },
           { UserName: { [Op.iLike]: userSearch } },
-          { created_on: { [Op.iLike]: userSearch } }
+          { created_at: { [Op.iLike]: userSearch } }
         ],
       },
     });

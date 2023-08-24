@@ -19,11 +19,11 @@ const initializePost = (sequelize) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        // Define the 'UserName' attribute as a string, not a primary key
-        UserName: {
-          type: DataTypes.STRING,
-          allowNull: false,
-        },
+        // // Define the 'UserName' attribute as a string, not a primary key
+        // UserName: {
+        //   type: DataTypes.STRING,
+        //   allowNull: false,
+        // },
         // Define the 'Title' attribute as a string with specific validation rules
         Title: {
           type: DataTypes.STRING,

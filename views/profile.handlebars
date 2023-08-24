@@ -5,6 +5,26 @@
         <h1 id="last_name"></h1>
         <h1 id="email"></h1>
 
+        <h2 id="new_post">New Post</h2>
+        <!-- Create a form for user login with specific styling -->
+            <form action="../public/js/post.js" method="post" class="p-8 space-y-4">
+                <!-- Create a field for entering a username -->
+                <div>
+                    <label for="user_name" class="block mb-2 text-sm">Username</label>
+                    <!-- Create an input field for the username with a 'user_name' id and 'required' attribute -->
+                    <input type="text" id="user_name" name="user_name" required>
+                </div>
+                <!-- Create a field for entering a password -->
+                <div>
+                    <label for="pwd_hash" class="block mb-2 text-sm">Password</label>
+                    <!-- Create an input field for the password with a 'pwd_hash' id and 'required' attribute -->
+                    <input type="password" id="pwd_hash" name="pwd_hash" required>
+                </div>
+                <!-- Create a login button with specific styling -->
+                <button type="submit"
+                    class="block w-full mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Login</button>
+            </form>
+
         <h2>Blog Entries</h2>
         <ul id="blog-list">
             <!-- Blog entries will be added dynamically here -->

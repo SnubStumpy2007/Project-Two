@@ -17,6 +17,12 @@ const routes = require('./routes');            // Your application's custom rout
 const sequelize = require('./config/connection');  // Sequelize database connection
 const exploreRoute = require('./routes/explore');  // Custom route for exploring
 
+const userConfig = {
+    id: 'user_id',
+    UserName: 'user_name',
+    
+}
+
 // Configuration for managing user sessions using express-session
 const sess = {
     secret: process.env.SESSION_SECRET || 'Super secret secret',  // Secret key for session encryption

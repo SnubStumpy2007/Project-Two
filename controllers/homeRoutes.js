@@ -10,9 +10,13 @@ router.get('/', async (req, res) => {
     const userPosts = await Post.findAll({
       include: [
         {
+          model: Post,
+          attributes: ['Title', 'VenueName', 'EventDate', 'Genre', 'created_at'],
+        },
+        {
           model: UserAccount,
           attributes: ['UserName'],
-        },
+        }
       ],
     });
 
@@ -20,7 +24,7 @@ router.get('/', async (req, res) => {
     const blogPosts = userPosts.map((blogPost) => blogPost.get({ plain: true }));
 
     // Pass serialized data and session flag into the template
-    res.render('profile', {
+    res.render('/profile', {
       blogPosts,
       logged_in: req.session.logged_in,
     });
@@ -39,6 +43,10 @@ router.get('/post/:id', async (req, res) => {
           model: UserAccount,
           attributes: ['UserName'],
         },
+        {
+          model: Post,
+          attributes: ['Title', 'VenueName', 'EventDate', 'Genre', 'created_at', 'PostText'],
+        },
       ],
     });
 
@@ -54,7 +62,7 @@ router.get('/post/:id', async (req, res) => {
     };
 
     // Pass the structured blog post data and session flag into the template
-    res.render('post', {
+    res.render('/post', {
       ...blogPost,
       logged_in: req.session.logged_in,
     });
