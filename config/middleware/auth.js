@@ -1,5 +1,5 @@
 // Import the User model
-const { UserAccount } = require('../models');
+const { User } = require('../models');
 
 // Middleware function for user authentication
 const authenticateUser = async (req, res, next) => {
@@ -7,7 +7,7 @@ const authenticateUser = async (req, res, next) => {
     if (req.session.userId) {
         try {
             // Attempt to find a user by their session ID
-            const user = await UserAccount.findByPk(req.session.userId);
+            const user = await User.findByPk(req.session.userId);
             
             if (user) {
                 // If a user is found, attach the user object to the request
