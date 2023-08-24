@@ -17,6 +17,15 @@ const loginFormHandler = async (event) => {
           alert('Failed to log in. Please check your credentials and try again.');
       }
   }
+
+   // Create session variables based on the logged-in user
+   req.session.save(() => {
+    req.session.user_id = user.id;
+    req.session.logged_in = true;
+    
+    res.json({ user: user, message: 'You are now logged in!' });
+  });
 };
+
 
 document.querySelector('.login-form').addEventListener('submit', loginFormHandler);

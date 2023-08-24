@@ -1,7 +1,7 @@
 // Import necessary modules
 const express = require('express');
 const bcrypt = require('bcrypt');
-const { userAccount } = require('../models');
+const { UserAccount } = require('../models');
 
 // Create an instance of an Express router
 const router = express.Router();
@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
         const hashedPassword = await bcrypt.hash(pwd_hash, 10);
 
         // Create a new user account in the database
-        const user = await userAccount.create({
+        const user = await UserAccount.create({
             UserName: user_name,
             FirstName: first_name,
             LastName: last_name,
@@ -51,7 +51,7 @@ router.get('/login', (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         // Find a user with the provided username
-        const user = await userAccount.findOne({ where: { UserName: req.body.user_name } });
+        const user = await UserAccount.findOne({ where: { UserName: req.body.user_name } });
 
         // Check if the user exists and the provided password matches the hashed password
         if (user && await bcrypt.compare(req.body.pwd_hash, user.Password)) {

@@ -1,13 +1,13 @@
- <div class="profile">
+ <div action="/profile" class="profile">
     <section id="profile-info">
         <h2>Your Info</h2>
-        <h1 id="user_name"></h1>
-        <h1 id="first_name"></h1>
-        <h1 id="last_name"></h1>
-        <h1 id="email"></h1>
+        <h1 id="user_name">{{user_name}}</h1>
+        <h1 id="first_name">{{first_name}}</h1>
+        <h1 id="last_name">{{last_name}}</h1>
+        <h1 id="email">{{email}}</h1>
     </section>
 
-    <section id="user-posts">
+    <section action="/userPosts" id="user-posts">
         <h2>Blog Entries</h2>
         <ul id="blog-list">
             <!-- Blog entries will be added dynamically here -->
